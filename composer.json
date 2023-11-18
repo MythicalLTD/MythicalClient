@@ -1,0 +1,48 @@
+{
+    "name": "mythicalsystems/mythicalclient",
+    "description": "The next-generation standalone dashboard.",
+    "type": "project",
+    "license": "GPL-3.0-or-later",
+    "homepage": "https://github.com/mythicalltd/mythicalclient",
+    "keywords": [
+        "mythicalsystems",
+        "mythicaldash",
+        "mythicalclient",
+        "nayskutzu"
+    ],
+    "authors": [
+        {
+            "name": "NaysKutzu",
+            "email": "nayskutzu@gmail.com",
+            "homepage": "https://mythicalsystems.me",
+            "role": "Owner"
+        }
+    ],
+    "support": {
+        "wiki": "https://docs.mythicalsystems.me",
+        "docs": "https://docs.mythicalsystems.me",
+        "issues": "https://github.com/mythicalltd/mythicalclient/issues",
+        "source": "https://github.com/mythicalltd/mythicalclient",
+        "chat": "https://discord.gg/fcrZcYvbnq"
+    },
+    "funding": [
+        {
+            "type": "GitHub",
+            "url": "https://github.com/sponsors/nayskutzu"
+        },
+        {
+            "type": "PayPal",
+            "url": "https://github.com/sponsors/nayskutzu"
+        }
+    ],
+    "require": {
+        "php": ">=8.0.0",
+        "mythicalsystems/php-router": "^1.0"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "MythicalClient\\": "app/"
+        }
+    }
+}
