@@ -1,8 +1,9 @@
-<?php 
-namespace MythicalClient; 
+<?php
+namespace MythicalClient;
 
-class App {
-    
+class App
+{
+
 
     /**
      * Checks if the app is running on https!
@@ -13,6 +14,17 @@ class App {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Retuns the main app url
+     */
+    public static function getUrl()
+    {
+        $prot = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+        $svhost = $_SERVER['HTTP_HOST'];
+        $appURL = $prot . '://' . $svhost;
+        return $appURL;
     }
 
     /**
@@ -224,22 +236,22 @@ class App {
                         </p>
                         <div class="code-box" data-simplebar>
                             <code class="cline">
-                            <?php
-                            if (isset($message)) {
-                                http_response_code(500);
-                                $error = htmlspecialchars($message);
-                                $errorLines = explode(PHP_EOL, $error);
-                                foreach ($errorLines as $line) {
-                                    $trimmedLine = ltrim($line);
-                                    if (!empty($trimmedLine)) {
-                                        echo $trimmedLine . PHP_EOL;
+                                    <?php
+                                    if (isset($message)) {
+                                        http_response_code(500);
+                                        $error = htmlspecialchars($message);
+                                        $errorLines = explode(PHP_EOL, $error);
+                                        foreach ($errorLines as $line) {
+                                            $trimmedLine = ltrim($line);
+                                            if (!empty($trimmedLine)) {
+                                                echo $trimmedLine . PHP_EOL;
+                                            }
+                                        }
+                                    } else {
+                                        echo 'No error';
                                     }
-                                }
-                            } else {
-                                echo 'No error';
-                            }
-                            ?>
-                        </code>
+                                    ?>
+                                </code>
                         </div>
                         <p class="error-text">
                             We apologize for the inconvenience. Please report this to the site administrator.

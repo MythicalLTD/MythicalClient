@@ -27,15 +27,15 @@ class EncryptionHandler {
      * @param string $encryptionKey The key to encrypt the data
      */
     public static function encrypt($data, $encryptionKey) {
-        $encrypted = '';
-        $keyLength = strlen($encryptionKey);
+        $ivLength = openssl_cipher_iv_length($cipher = "AES-256-CFB");
+        $iv = openssl_random_pseudo_bytes($ivLength);
 
-        for ($i = 0; $i < strlen($data); $i++) {
-            $keyChar = $encryptionKey[$i % $keyLength];
-            $encrypted .= chr((ord($data[$i]) + ord($keyChar)) % 256);
-        }
+        $encrypted = openssl_encrypt($data, $cipher, $encryptionKey, 0, $iv);
 
-        return base64_encode($encrypted);
+        // Combine IV and encrypted data
+        $result = $iv . $encrypted;
+
+        return base64_encode($result);
     }
 
     /**
@@ -46,15 +46,12 @@ class EncryptionHandler {
      */
     public static function decrypt($encryptedData, $encryptionKey) {
         $encryptedData = base64_decode($encryptedData);
-        $decrypted = '';
-        $keyLength = strlen($encryptionKey);
 
-        for ($i = 0; $i < strlen($encryptedData); $i++) {
-            $keyChar = $encryptionKey[$i % $keyLength];
-            $decrypted .= chr((ord($encryptedData[$i]) - ord($keyChar) + 256) % 256);
-        }
+        $ivLength = openssl_cipher_iv_length($cipher = "AES-256-CFB");
+        $iv = substr($encryptedData, 0, $ivLength);
+        $encrypted = substr($encryptedData, $ivLength);
 
-        return $decrypted;
+        return openssl_decrypt($encrypted, $cipher, $encryptionKey, 0, $iv);
     }
 }
 ?>

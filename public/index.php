@@ -21,6 +21,7 @@ try {
 }
 use MythicalClient\App;
 use MythicalClient\Handlers\ConfigHandler;
+use MythicalClient\Handlers\EncryptionHandler;
 
 /**
  * Check if the client area has access to the directory!
@@ -51,13 +52,37 @@ if (!ConfigHandler::get("app", "debug") == null && ConfigHandler::get("app", "de
     die();
 }
 
+
+/**
+ * Check if encryption works on this system
+ * 
+ */
+if (!extension_loaded('openssl')) {
+    App::Crash("The OpenSSL extension is not installed. Please install it for secure encryption.");
+    die();
+}
+
+$minKeyLength = 32;
+if (strlen(ConfigHandler::get("app","key")) < $minKeyLength) {
+    App::Crash("The encryption key is too short. Please use a key of at least ' . $minKeyLength . ' characters for better security.");
+    die();
+}
+
 /**
  * MythicalClient Router System
  * 
  * This is the route system for mythicalclient that includes all the routes to the app!
  */
 $router = new \Router\Router();
-include(__DIR__ . '/../routes/main.php');
+$routesDirectory = __DIR__ . '/../routes/';
+$phpFiles = glob($routesDirectory . '*.php');
+foreach ($phpFiles as $phpFile) {
+    include $phpFile;
+}
+
+$router->add("/mythicalguard", function () {
+    require("../views/mythicalguard/home.php");
+});
 
 $router->add("/(.*)", function () {
     require("../views/errors/404.php");
