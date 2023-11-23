@@ -1,6 +1,8 @@
 <?php
 namespace MythicalClient;
 
+use MythicalClient\Handlers\ConfigHandler;
+
 class App
 {
 
@@ -15,9 +17,12 @@ class App
         }
         return false;
     }
-    
+
     /**
      * Retuns the main app url
+     * ex https://mythicalsystems.me
+     * 
+     * @return string
      */
     public static function getUrl()
     {
@@ -27,6 +32,28 @@ class App
         return $appURL;
     }
 
+    public static function getLang()
+    {
+        $langConfig = ConfigHandler::get("app", "lang");
+
+        if ($langConfig == null) {
+            self::handleLanguageError("Failed to start the dash. Please use a valid language file.");
+        } else {
+            $langFilePath = __DIR__ . '/../lang/' . $langConfig . '.php';
+
+            if (file_exists($langFilePath)) {
+                return include($langFilePath);
+            } else {
+                self::handleLanguageError("Failed to start the dash. Please use a valid language file.");
+            }
+        }
+    }
+
+    private static function handleLanguageError($errorMessage)
+    {
+        App::Crash($errorMessage);
+        die();
+    }
     /**
      * Crash the app and display a custom error.
      *
@@ -236,22 +263,22 @@ class App
                         </p>
                         <div class="code-box" data-simplebar>
                             <code class="cline">
-                                    <?php
-                                    if (isset($message)) {
-                                        http_response_code(500);
-                                        $error = htmlspecialchars($message);
-                                        $errorLines = explode(PHP_EOL, $error);
-                                        foreach ($errorLines as $line) {
-                                            $trimmedLine = ltrim($line);
-                                            if (!empty($trimmedLine)) {
-                                                echo $trimmedLine . PHP_EOL;
+                                            <?php
+                                            if (isset($message)) {
+                                                http_response_code(500);
+                                                $error = htmlspecialchars($message);
+                                                $errorLines = explode(PHP_EOL, $error);
+                                                foreach ($errorLines as $line) {
+                                                    $trimmedLine = ltrim($line);
+                                                    if (!empty($trimmedLine)) {
+                                                        echo $trimmedLine . PHP_EOL;
+                                                    }
+                                                }
+                                            } else {
+                                                echo 'No error';
                                             }
-                                        }
-                                    } else {
-                                        echo 'No error';
-                                    }
-                                    ?>
-                                </code>
+                                            ?>
+                                        </code>
                         </div>
                         <p class="error-text">
                             We apologize for the inconvenience. Please report this to the site administrator.

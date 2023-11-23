@@ -22,6 +22,7 @@ try {
 use MythicalClient\App;
 use MythicalClient\Handlers\ConfigHandler;
 use MythicalClient\Handlers\EncryptionHandler;
+use MythicalClient\Managers\AddonsManager;
 
 /**
  * Check if the client area has access to the directory!
@@ -52,6 +53,11 @@ if (!ConfigHandler::get("app", "debug") == null && ConfigHandler::get("app", "de
     die();
 }
 
+/**
+ * System to load the langauges
+ */
+
+$lang = App::getLang();
 
 /**
  * Check if encryption works on this system
@@ -63,7 +69,7 @@ if (!extension_loaded('openssl')) {
 }
 
 $minKeyLength = 32;
-if (strlen(ConfigHandler::get("app","key")) < $minKeyLength) {
+if (strlen(ConfigHandler::get("app", "key")) < $minKeyLength) {
     App::Crash("The encryption key is too short. Please use a key of at least ' . $minKeyLength . ' characters for better security.");
     die();
 }
@@ -89,6 +95,7 @@ $router->add("/(.*)", function () {
 });
 
 try {
+    
     $router->route();
 } catch (Exception $e) {
     App::Crash("Failed to start the app route system: " . $e->getMessage());

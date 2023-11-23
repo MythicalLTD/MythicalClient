@@ -1,3 +1,8 @@
+<?php 
+use MythicalClient\Managers\SessionManager;
+
+$session = new SessionManager();
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5,6 +10,9 @@
     <title>MythicalClient - Home</title>
 </head>
 <body>
-    <h1>Template compiled</h1>
+    <?php
+     echo($session->createKey("nayskutzu","test@gmail.com"));?>
+    <p>
+    </p>
 </body>
 </html>
