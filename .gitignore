@@ -2,3 +2,4 @@ composer.phar
 /vendor/
 /logs/*.log
 config.ini
+/caches/*.json
