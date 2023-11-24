@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * MythicalClient - EncryptionHandler
  * 
@@ -15,10 +15,11 @@
  * In light of these intricacies, it is advised that only individuals with an extensive grasp of the encryption mechanisms and key management delve into the modification of this file. 
  * Without the requisite knowledge, well-intentioned efforts to enhance the system could inadvertently lead to the loss of critical data. 
  * Thus, the utmost caution and expertise are indispensable when engaging with this pivotal component of the system.
-*/
+ */
 namespace MythicalClient\Handlers;
 
-class EncryptionHandler {
+class EncryptionHandler
+{
 
     /**
      * Encrypt the data 
@@ -26,16 +27,17 @@ class EncryptionHandler {
      * @param string $data Data to be encrypted
      * @param string $encryptionKey The key to encrypt the data
      */
-    public static function encrypt($data, $encryptionKey) {
-        $ivLength = openssl_cipher_iv_length($cipher = "AES-256-CFB");
-        $iv = openssl_random_pseudo_bytes($ivLength);
+    public static function encrypt($data, $encryptionKey)
+    {
+        $encrypted = '';
+        $keyLength = strlen($encryptionKey);
 
-        $encrypted = openssl_encrypt($data, $cipher, $encryptionKey, 0, $iv);
+        for ($i = 0; $i < strlen($data); $i++) {
+            $keyChar = $encryptionKey[$i % $keyLength];
+            $encrypted .= chr((ord($data[$i]) + ord($keyChar)) % 256);
+        }
 
-        // Combine IV and encrypted data
-        $result = $iv . $encrypted;
-
-        return base64_encode($result);
+        return base64_encode($encrypted);
     }
 
     /**
@@ -44,14 +46,18 @@ class EncryptionHandler {
      * @param string $data Data to be decrypted
      * @param string $encryptionKey The key to decrypt the data
      */
-    public static function decrypt($encryptedData, $encryptionKey) {
+    public static function decrypt($encryptedData, $encryptionKey)
+    {
         $encryptedData = base64_decode($encryptedData);
+        $decrypted = '';
+        $keyLength = strlen($encryptionKey);
 
-        $ivLength = openssl_cipher_iv_length($cipher = "AES-256-CFB");
-        $iv = substr($encryptedData, 0, $ivLength);
-        $encrypted = substr($encryptedData, $ivLength);
+        for ($i = 0; $i < strlen($encryptedData); $i++) {
+            $keyChar = $encryptionKey[$i % $keyLength];
+            $decrypted .= chr((ord($encryptedData[$i]) - ord($keyChar) + 256) % 256);
+        }
 
-        return openssl_decrypt($encrypted, $cipher, $encryptionKey, 0, $iv);
+        return $decrypted;
     }
 }
 ?>

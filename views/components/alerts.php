@@ -241,7 +241,7 @@ $lang = App::getLang();
                     }
                     toastr["error"]("<?= $lang['email_code_wrong'] ?>", "<?= $lang['authentication'] ?>")
                 <?php
-            } else if ($_GET['e'] == 'email_code_wrong') {
+            } else if ($_GET['e'] == 'mailserver_down') {
                 ?>
                     toastr.options = {
                         "closeButton": true,
@@ -260,7 +260,28 @@ $lang = App::getLang();
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
                     }
-                    toastr["error"]("<?= $lang['email_code_wrong'] ?>", "<?= $lang['authentication'] ?>")
+                    toastr["error"]("<?= $lang['mailserver_down'] ?>", "<?= $lang['authentication'] ?>")
+                <?php
+            }  else if ($_GET['e'] == 'db_error') {
+                ?>
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    toastr["error"]("<?= $lang['db_error'] ?>", "<?= $lang['authentication'] ?>")
                 <?php
             } 
         }

@@ -26,6 +26,8 @@ return [
     "alting" => "You are trying to use temporary accounts, which is not allowed.",
     "vpn" => "You are trying to use a VPN, which is not allowed.",
     "mailserver_down" => "We are sorry but our SMTP server is down.",
+    "db_error" => "We are sorry but we can't add you in our database due an unexpected error",
+    "not_found_in_db" => "We can't find this in the database.",
     //Registration Page Translations
     "register_tos_1" => "I agree with the ",
     "register_welcome" => "Welcome to ",

@@ -1,6 +1,7 @@
 <?php
 
 namespace MythicalClient\Managers;
+
 use MythicalClient\Handlers\DatabaseConnectionHandler;
 use MythicalClient\Handlers\EncryptionHandler;
 use MythicalClient\Handlers\ConfigHandler;
@@ -15,24 +16,24 @@ class SessionManager
     /**
      * Check if user is logged in
      */
-     public function authenticateUser()
-     {
-         if (isset($_COOKIE['token'])) {
-             $session_id = mysqli_real_escape_string($this->dbConnection,$_COOKIE['token']);
-             $query = "SELECT * FROM mythicaldash_users WHERE api_key='" . $session_id . "'";
-             $result = mysqli_query($this->dbConnection, $query);
- 
-             if (mysqli_num_rows($result) > 0) {
-                 session_start();
-                 $_SESSION["token"] = $session_id;
-                 $_SESSION['loggedin'] = true;
-             } else {
-                 $this->redirectToLogin($this->getFullUrl());
-             }
-         } else {
-             $this->redirectToLogin($this->getFullUrl());
-         }
-     }
+    public function authenticateUser()
+    {
+        if (isset($_COOKIE['token'])) {
+            $session_id = mysqli_real_escape_string($this->dbConnection, $_COOKIE['token']);
+            $query = "SELECT * FROM mythicaldash_users WHERE api_key='" . $session_id . "'";
+            $result = mysqli_query($this->dbConnection, $query);
+
+            if (mysqli_num_rows($result) > 0) {
+                session_start();
+                $_SESSION["token"] = $session_id;
+                $_SESSION['loggedin'] = true;
+            } else {
+                $this->redirectToLogin($this->getFullUrl());
+            }
+        } else {
+            $this->redirectToLogin($this->getFullUrl());
+        }
+    }
     /**
      * Get the user information from the database
      * 
@@ -40,87 +41,87 @@ class SessionManager
      * 
      * @return string|null The info or null
      */
-     public function getUserInfo($info)
-     {
-         $session_id = mysqli_real_escape_string($this->dbConnection, $_COOKIE["token"]);
-         $safeInfo = $this->dbConnection->real_escape_string($info);
-         $query = "SELECT `$safeInfo` FROM mythicaldash_users WHERE api_key='$session_id' LIMIT 1";
-         $result = $this->dbConnection->query($query);
- 
-         if ($result && $result->num_rows > 0) {
-             $row = $result->fetch_assoc();
-             return $row[$info];
-         } else {
-             return null; // User or data not found
-         }
-     }
+    public function getUserInfo($info)
+    {
+        $session_id = mysqli_real_escape_string($this->dbConnection, $_COOKIE["token"]);
+        $safeInfo = $this->dbConnection->real_escape_string($info);
+        $query = "SELECT `$safeInfo` FROM mythicaldash_users WHERE api_key='$session_id' LIMIT 1";
+        $result = $this->dbConnection->query($query);
+
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row[$info];
+        } else {
+            return null; // User or data not found
+        }
+    }
 
     /**
      * If user is not logged in it will reddirect them to login! 
      * This code also saves the url where the user is. 
      */
-     private function redirectToLogin($fullUrl)
-     {
-         $this->deleteCookies();
-         header('location: /auth/login?r=' . $fullUrl);
-         die();
-     }
+    private function redirectToLogin($fullUrl)
+    {
+        $this->deleteCookies();
+        header('location: /auth/login?r=' . $fullUrl);
+        die();
+    }
     /**
      * This will delete all user cookies to ensure that he will be 
      * logged out if this account
      */
-     private function deleteCookies()
-     {
-         if (isset($_SERVER['HTTP_COOKIE'])) {
-             $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
-             foreach ($cookies as $cookie) {
-                 $parts = explode('=', $cookie);
-                 $name = trim($parts[0]);
-                 setcookie($name, '', time() - 1000);
-                 setcookie($name, '', time() - 1000, '/');
-             }
-         }
-     }
+    private function deleteCookies()
+    {
+        if (isset($_SERVER['HTTP_COOKIE'])) {
+            $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+            foreach ($cookies as $cookie) {
+                $parts = explode('=', $cookie);
+                $name = trim($parts[0]);
+                setcookie($name, '', time() - 1000);
+                setcookie($name, '', time() - 1000, '/');
+            }
+        }
+    }
 
     /**
      * Get the ip of the user
      * 
      * @return string|null The ip of the user
      */
-     public function getIP()
-     {
-         if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
-             $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-             $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-         }
-         $client = @$_SERVER['HTTP_CLIENT_IP'];
-         $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
-         $remote = $_SERVER['REMOTE_ADDR'];
- 
-         if (filter_var($client, FILTER_VALIDATE_IP)) {
-             $ip = $client;
-         } elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
-             $ip = $forward;
-         } else {
-             $ip = $remote;
-         }
- 
-         return $ip;
-     }
+    public function getIP()
+    {
+        if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+            $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+            $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+        }
+        $client = @$_SERVER['HTTP_CLIENT_IP'];
+        $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+        $remote = $_SERVER['REMOTE_ADDR'];
+
+        if (filter_var($client, FILTER_VALIDATE_IP)) {
+            $ip = $client;
+        } elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
+            $ip = $forward;
+        } else {
+            $ip = $remote;
+        }
+
+        return $ip;
+    }
     /**
      * Get the url where the user is 
      * 
      * @return string|null The url
      */
-     private function getFullUrl()
-     {
-         $fullUrl = "http";
-         if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
-             $fullUrl .= "s";
-         }
-         $fullUrl .= "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-         return $fullUrl;
-     }
+    private function getFullUrl()
+    {
+        $fullUrl = "http";
+        if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
+            $fullUrl .= "s";
+        }
+        $fullUrl .= "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        return $fullUrl;
+    }
 
     /**
      * Create a user secret key
@@ -131,7 +132,8 @@ class SessionManager
      * @return string|null The new key or null if something failed
      */
 
-     public function createKey($username, $email) {
+    public function createKey($username, $email)
+    {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
         $charArrayLength = strlen($chars) - 1;
         $length = 12;
@@ -143,12 +145,55 @@ class SessionManager
         $timestamp = time();
         $formatted_timestamp = date("HisdmY", $timestamp);
 
-        $e_username = EncryptionHandler::encrypt($username, ConfigHandler::get("app","key"));
-        $e_email = EncryptionHandler::encrypt($username, ConfigHandler::get("app","key"));
-        $encoded_timestamp = EncryptionHandler::encrypt($username, ConfigHandler::get("app","key"));
-        
-        $userToken = 'MythicalClientUK_'.ConfigHandler::get("app","name").'_'.$e_username.$e_email.$encoded_timestamp.$key;
+        $e_username = EncryptionHandler::encrypt($username, ConfigHandler::get("app", "key"));
+        $e_email = EncryptionHandler::encrypt($email, ConfigHandler::get("app", "key"));
+        $encoded_timestamp = EncryptionHandler::encrypt($formatted_timestamp, ConfigHandler::get("app", "key"));
+
+        $userToken = 'MythicalClientUK_' . ConfigHandler::get("app", "name") . '_' . $e_username . $e_email . $encoded_timestamp . $key;
         return $userToken;
-     }
+    }
+
+    /**
+     * Create a user inside the database
+     * 
+     * @param string $username The username
+     * @param string $email The email
+     * @param string $first_name The first name
+     * @param string $last_name The last name
+     * @param string $password The password
+     * @param string $avatar The avatar
+     * @param string $uid The user id
+     * @param string $token The user token
+     * @param string $ip The ip of the user
+     * @param string $verification_code The email verification code
+     * 
+     * @return bool If this fails or not
+     */
+    public function createUser($username, $email, $first_name, $last_name, $password, $avatar, $uid, $token, $ip, $verification_code) {
+        $query = "INSERT INTO users (username, email, first_name, last_name, password, avatar, user_id, token, first_ip, last_ip, verification_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $this->dbConnection->prepare($query);
+        $encryptedUsername = EncryptionHandler::encrypt($username, ConfigHandler::get("app","key"));
+        $encryptedEmail = EncryptionHandler::encrypt($email, ConfigHandler::get("app","key"));
+        $encryptedFirstName = EncryptionHandler::encrypt($first_name, ConfigHandler::get("app","key"));
+        $encryptedLastName = EncryptionHandler::encrypt($last_name, ConfigHandler::get("app","key"));
+        $encryptedIp = EncryptionHandler::encrypt($ip, ConfigHandler::get("app","key"));
+        $encryptedAvatar = EncryptionHandler::encrypt($avatar, ConfigHandler::get("app","key"));
+        $encryptedUID = EncryptionHandler::encrypt($uid, ConfigHandler::get("app","key"));
+        $stmt->bind_param(
+            "sssssssssss",
+            $encryptedUsername,
+            $encryptedEmail,
+            $encryptedFirstName,
+            $encryptedLastName,
+            $password,
+            $encryptedAvatar,
+            $encryptedUID,
+            $token,
+            $encryptedIp,
+            $encryptedIp,
+            $verification_code
+        );
+        return $stmt->execute();
+    }
 }
 ?>

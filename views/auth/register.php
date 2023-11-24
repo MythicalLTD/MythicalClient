@@ -1,9 +1,11 @@
 <?php
 use MythicalClient\App;
 use MythicalClient\Handlers\DatabaseConnectionHandler;
+use MythicalClient\Handlers\EncryptionHandler;
 use MythicalClient\Managers\SessionManager;
 use MythicalClient\Handlers\ConfigHandler;
 use MythicalClient\CloudFlare\Turnstile;
+use MythicalClient\Managers\SnowflakeManager;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -16,7 +18,7 @@ $csrf = new MythicalClient\Handlers\CSRFHandler();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['register'])) {
         if ($csrf->validate('register-form')) {
-            if (ConfigHandler::get("turnstile", "enabled") == "true" && !ConfigHandler::get("turnstile", "key") == null && !ConfigHandler::get("turnstile", "secret_key") == null) {
+            if (ConfigHandler::get("turnstile", "enabled") == "true") {
                 $captcha_success = 1;
             } else {
                 $captcha_success = Turnstile::validate_captcha($_POST["cf-turnstile-response"], $session->getIP(), ConfigHandler::get("turnstile", "secret_key"));
@@ -26,16 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $email = mysqli_real_escape_string($conn, $_POST['email']);
                     $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
                     $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
+                    $username = mysqli_real_escape_string($conn, $_POST['username']);
                     $email = mysqli_real_escape_string($conn, $_POST['email']);
                     $password = mysqli_real_escape_string($conn, $_POST['password']);
                     $password_encrypted = password_hash($password, PASSWORD_BCRYPT);
-                    $username = mysqli_real_escape_string($conn, $_POST['username']);
-                    $email = mysqli_real_escape_string($conn, $_POST['email']);
-                    $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
-                    $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
-                    $upassword = mysqli_real_escape_string($conn, $_POST['password']);
                     $insecure_passwords = array("password", "1234", "qwerty", "letmein", "admin", "pass", "123456789", "kek");
-                    if (in_array($upassword, $insecure_passwords)) {
+                    if (in_array($password, $insecure_passwords)) {
                         header('location: /auth/register?e=blocked_password');
                         die();
                     }
@@ -56,19 +54,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         header('location: /auth/register?e=name_invalid');
                         die();
                     }
-                    $token = $session->createKey($username,$email);
-                    if (ConfigHandler::get("mailserver","enabled") == "true" && !ConfigHandler::get("mailserver","host") == null && !ConfigHandler::get("mailserver","port") == null && !ConfigHandler::get("mailserver","encryption") == null && !ConfigHandler::get("mailserver","username") == null && !ConfigHandler::get("mailserver","password") == null && !ConfigHandler::get("mailserver","fromemail") == null) {
+                    if (ConfigHandler::get("mailserver", "enabled") == "true") {
                         $code = mysqli_real_escape_string($conn, md5(rand()));
                     } else {
                         $code = null;
                     }
-                    $check_query = "SELECT * FROM mythicaldash_users WHERE username = '$username' OR email = '$email'";
+                    $check_query = "SELECT * FROM users WHERE username = '" . EncryptionHandler::encrypt($username, ConfigHandler::get("app", "key")) . "' OR email = '" . EncryptionHandler::encrypt($email, ConfigHandler::get("app", "key")) . "'";
                     $result = mysqli_query($conn, $check_query);
                     if (!mysqli_num_rows($result) > 0) {
                         $aquery = "SELECT * FROM ip_logs WHERE ipaddr = '" . mysqli_real_escape_string($conn, $session->getIP()) . "'";
                         $aresult = mysqli_query($conn, $aquery);
                         $acount = mysqli_num_rows($aresult);
-                        if (!ConfigHandler::get("other","allow_alts") == "true") {
+                        if (ConfigHandler::get("other", "allow_alts") == "false") {
                             if ($acount >= 1) {
                                 header('location: /auth/register?e=alting');
                                 die();
@@ -88,40 +85,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if ($session->getIP() == "51.161.152.218" || $session->getIP() == "66.220.20.165") {
                             $vpn = false;
                         }
-                        if (!ConfigHandler::get("other","allow_vpn") == "true") {
+                        if (ConfigHandler::get("other", "allow_vpn") == "false") {
                             if ($vpn == true) {
                                 header('location: /auth/register?e=vpn');
                                 die();
                             }
                         }
-                        $conn->query("INSERT INTO ip_logs (ipaddr, userkey) VALUES ('" . mysqli_real_escape_string($conn, $session->getIP()) . "', '".mysqli_real_escape_string($conn, $token)."')");
+                        $token = $session->createKey($username, $email);
+                        $user_id = SnowflakeManager::getUniqueUserID();
+                        $conn->query("INSERT INTO ip_logs (ipaddr, usertoken) VALUES ('" . mysqli_real_escape_string($conn, $session->getIP()) . "', '" . mysqli_real_escape_string($conn, $token) . "')");
                         $default = "https://www.gravatar.com/avatar/00000000000000000000000000000000";
                         $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . urlencode($default);
                         if (!$code == null) {
-
-                        } else {
-                            $link = App::getUrl().'/auth/verify?code'.$code;
+                            $link = App::getUrl() . '/auth/verify?code' . $code;
                             $mail = new PHPMailer(true);
                             try {
                                 $mail->SMTPDebug = 0;
                                 $mail->isSMTP();
-                                $mail->Host = ConfigHandler::get("mailserver","host");
+                                $mail->Host = ConfigHandler::get("mailserver", "host");
                                 $mail->SMTPAuth = true;
-                                $mail->Username = ConfigHandler::get("mailserver","username");
-                                $mail->Password = ConfigHandler::get("mailserver","password");
-                                $mail->SMTPSecure = ConfigHandler::get("mailserver","encryption");
-                                $mail->Port = ConfigHandler::get("mailserver","port");
+                                $mail->Username = ConfigHandler::get("mailserver", "username");
+                                $mail->Password = ConfigHandler::get("mailserver", "password");
+                                $mail->SMTPSecure = ConfigHandler::get("mailserver", "encryption");
+                                $mail->Port = ConfigHandler::get("mailserver", "port");
                                 //Recipients
-                                $mail->setFrom(ConfigHandler::get("mailserver","fromemail"));
+                                $mail->setFrom(ConfigHandler::get("mailserver", "fromemail"));
                                 $mail->addAddress($email);
                                 $mail->isHTML(false);
-                                $mail->Subject = 'Verify your ' . ConfigHandler::get("app","name") . ' account!';
-                                $mail->Body = $lang['account_creation_thanks'].' '.ConfigHandler::get("app","name"). ' '.$lang['account_creation_link'].$link;
+                                $mail->Subject = 'Verify your ' . ConfigHandler::get("app", "name") . ' account!';
+                                $mail->Body = $lang['account_creation_thanks'] . ' ' . ConfigHandler::get("app", "name") . ' ' . $lang['account_creation_link'] . $link;
                                 $mail->send();
                             } catch (Exception $e) {
-                                header("location: /auth/register?e=");
+                                header("location: /auth/register?e=mailserver_down");
                                 die();
                             }
+                        }
+                        if ($session->createUser($username, $email, $first_name, $last_name, $password_encrypted, $grav_url, $user_id, $token, $session->getIP(), $code)) {
+                            if (!$code == null) {
+                                header('location: /auth/login?s=check_email');
+                                $conn->close();
+                                die();
+                            } else {
+                                header("location: /auth/login");
+                                $conn->close();
+                                die();
+                            }
+                        } else {
+                            header('location: /auth/register?e=db_error');
+                            $conn->close();
+                            die();
                         }
                     } else {
                         header('location: /auth/register?e=username_or_email_exits');
