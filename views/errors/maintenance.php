@@ -20,7 +20,7 @@ $lang = App::getLang();
     <?php include(__DIR__ . '/../requirements/head.php') ?>
     <title>
         <?= ConfigHandler::get("app", "name") ?> -
-        404
+        <?= $lang["maintenance"]?>
     </title>
 </head>
 
@@ -33,12 +33,12 @@ $lang = App::getLang();
     <div class="page page-center">
         <div class="container-tight py-4">
             <div class="empty">
-                <div class="empty-header">404</div>
-                <p class="empty-title">
-                    <?= $lang['error_title'] ?>
-                </p>
+                <div class="empty-img"><img src="/static/illustrations/undraw_quitting_time_dm8t.svg" height="128"
+                        alt="">
+                </div>
+                <p class="empty-title"><?= $lang["error_maintenance_title"]?></p>
                 <p class="empty-subtitle text-muted">
-                    <?= $lang['error_404'] ?>
+                    <?= $lang['error_maintenance_subtitle']?>
                 </p>
                 <div class="empty-action">
                     <a href="/" class="btn btn-primary">

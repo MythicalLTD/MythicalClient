@@ -1,11 +1,8 @@
 <?php
-use MythicalClient\Managers\SessionManager;
-use MythicalClient\Managers\SnowflakeManager;
-
-$id = SnowflakeManager::getUniqueUserID();
 
 
-$session = new SessionManager();
+
+
 ?>
 <html lang="en">
 
@@ -17,9 +14,7 @@ $session = new SessionManager();
 
 <body>
     <p>
-        <?php
-        echo $id;
-        ?>
+    
     </p>
 </body>
 

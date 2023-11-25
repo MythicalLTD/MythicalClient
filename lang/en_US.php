@@ -28,6 +28,7 @@ return [
     "mailserver_down" => "We are sorry but our SMTP server is down.",
     "db_error" => "We are sorry but we can't add you in our database due an unexpected error",
     "not_found_in_db" => "We can't find this in the database.",
+    "maintenance" => "Maintenance",
     //Registration Page Translations
     "register_tos_1" => "I agree with the ",
     "register_welcome" => "Welcome to ",
@@ -38,6 +39,13 @@ return [
     "email_success" => "Email verified. You can log in now.",
     //Mail messages
     "account_creation_thanks" => "Thanks for creating an account at",
-    "account_creation_link" => "Please make sure to verify it by clicking on this link:"
+    "account_creation_link" => "Please make sure to verify it by clicking on this link:",
+    //Error pages
+    "error_title" => "Oops… You just found an error page",
+    "error_to_home" => "Back to home",
+    "error_404" => " We are sorry but the page you are looking for was not found",
+    "error_403" => "We are so sorry but you do not have acces to this page!",
+    "error_maintenance_title" => "Temporarily down for maintenance",
+    "error_maintenance_subtitle" => "Sorry for the inconvenience but we’re performing some maintenance at the moment. We’ll be back online shortly!"
 ]
 ?>

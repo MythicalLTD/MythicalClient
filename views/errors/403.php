@@ -1,8 +1,5 @@
 <?php
 use MythicalClient\Handlers\ConfigHandler;
-use MythicalClient\App;
-
-$lang = App::getLang();
 
 ?>
 <!doctype html>
@@ -33,12 +30,10 @@ $lang = App::getLang();
     <div class="page page-center">
         <div class="container-tight py-4">
             <div class="empty">
-                <div class="empty-header">404</div>
-                <p class="empty-title">
-                    <?= $lang['error_title'] ?>
-                </p>
+                <div class="empty-header">403</div>
+                <p class="empty-title"><?= $lang['error_title']?></p>
                 <p class="empty-subtitle text-muted">
-                    <?= $lang['error_404'] ?>
+                    We are so sorry but you do not have acces to this page!
                 </p>
                 <div class="empty-action">
                     <a href="/" class="btn btn-primary">
