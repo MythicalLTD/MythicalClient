@@ -1,13 +1,17 @@
 <?php
 use MythicalClient\App;
 use MythicalClient\Handlers\DatabaseConnectionHandler;
+use MythicalClient\Handlers\EmailHandler;
 use MythicalClient\Handlers\EncryptionHandler;
 use MythicalClient\Managers\SessionManager;
 use MythicalClient\Handlers\ConfigHandler;
 use MythicalClient\CloudFlare\Turnstile;
 use MythicalClient\Managers\SnowflakeManager;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+
+if (isset($_COOKIE['token']) && !$_COOKIE['token'] == null) {
+    header('location: /dashboard');
+    die();
+}
 
 $lang = App::getLang();
 $conn = DatabaseConnectionHandler::getConnection();
@@ -18,7 +22,7 @@ $csrf = new MythicalClient\Handlers\CSRFHandler();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['register'])) {
         if ($csrf->validate('register-form')) {
-            if (ConfigHandler::get("turnstile", "enabled") == "true") {
+            if (ConfigHandler::get("turnstile", "enabled") == "false") {
                 $captcha_success = 1;
             } else {
                 $captcha_success = Turnstile::validate_captcha($_POST["cf-turnstile-response"], $session->getIP(), ConfigHandler::get("turnstile", "secret_key"));
@@ -29,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
                     $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
                     $username = mysqli_real_escape_string($conn, $_POST['username']);
-                    $email = mysqli_real_escape_string($conn, $_POST['email']);
                     $password = mysqli_real_escape_string($conn, $_POST['password']);
                     $password_encrypted = password_hash($password, PASSWORD_BCRYPT);
                     $insecure_passwords = array("password", "1234", "qwerty", "letmein", "admin", "pass", "123456789", "kek");
@@ -97,28 +100,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $default = "https://www.gravatar.com/avatar/00000000000000000000000000000000";
                         $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . urlencode($default);
                         if (!$code == null) {
-                            $link = App::getUrl() . '/auth/verify?code' . $code;
-                            $mail = new PHPMailer(true);
-                            try {
-                                $mail->SMTPDebug = 0;
-                                $mail->isSMTP();
-                                $mail->Host = ConfigHandler::get("mailserver", "host");
-                                $mail->SMTPAuth = true;
-                                $mail->Username = ConfigHandler::get("mailserver", "username");
-                                $mail->Password = ConfigHandler::get("mailserver", "password");
-                                $mail->SMTPSecure = ConfigHandler::get("mailserver", "encryption");
-                                $mail->Port = ConfigHandler::get("mailserver", "port");
-                                //Recipients
-                                $mail->setFrom(ConfigHandler::get("mailserver", "fromemail"));
-                                $mail->addAddress($email);
-                                $mail->isHTML(false);
-                                $mail->Subject = 'Verify your ' . ConfigHandler::get("app", "name") . ' account!';
-                                $mail->Body = $lang['account_creation_thanks'] . ' ' . ConfigHandler::get("app", "name") . ' ' . $lang['account_creation_link'] . $link;
-                                $mail->send();
-                            } catch (Exception $e) {
+                            if (EmailHandler::SendVerification($email,$code,$first_name,$last_name) == false) {
                                 header("location: /auth/register?e=mailserver_down");
                                 die();
-                            }
+                            } 
                         }
                         if ($session->createUser($username, $email, $first_name, $last_name, $password_encrypted, $grav_url, $user_id, $token, $session->getIP(), $code)) {
                             if (!$code == null) {

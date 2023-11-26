@@ -20,7 +20,7 @@ class SessionManager
     {
         if (isset($_COOKIE['token'])) {
             $session_id = mysqli_real_escape_string($this->dbConnection, $_COOKIE['token']);
-            $query = "SELECT * FROM mythicaldash_users WHERE api_key='" . $session_id . "'";
+            $query = "SELECT * FROM users WHERE token='" . $session_id . "'";
             $result = mysqli_query($this->dbConnection, $query);
 
             if (mysqli_num_rows($result) > 0) {
@@ -45,7 +45,7 @@ class SessionManager
     {
         $session_id = mysqli_real_escape_string($this->dbConnection, $_COOKIE["token"]);
         $safeInfo = $this->dbConnection->real_escape_string($info);
-        $query = "SELECT `$safeInfo` FROM mythicaldash_users WHERE api_key='$session_id' LIMIT 1";
+        $query = "SELECT `$safeInfo` FROM users WHERE token='$session_id' LIMIT 1";
         $result = $this->dbConnection->query($query);
 
         if ($result && $result->num_rows > 0) {
@@ -149,7 +149,7 @@ class SessionManager
         $e_email = EncryptionHandler::encrypt($email, ConfigHandler::get("app", "key"));
         $encoded_timestamp = EncryptionHandler::encrypt($formatted_timestamp, ConfigHandler::get("app", "key"));
 
-        $userToken = 'MythicalClientUK_' . ConfigHandler::get("app", "name") . '_' . $e_username . $e_email . $encoded_timestamp . $key;
+        $userToken = 'MythicalClientAccountKey_' . $e_username . $e_email . $encoded_timestamp . $key;
         return $userToken;
     }
 
@@ -169,16 +169,17 @@ class SessionManager
      * 
      * @return bool If this fails or not
      */
-    public function createUser($username, $email, $first_name, $last_name, $password, $avatar, $uid, $token, $ip, $verification_code) {
+    public function createUser($username, $email, $first_name, $last_name, $password, $avatar, $uid, $token, $ip, $verification_code)
+    {
         $query = "INSERT INTO users (username, email, first_name, last_name, password, avatar, user_id, token, first_ip, last_ip, verification_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->dbConnection->prepare($query);
-        $encryptedUsername = EncryptionHandler::encrypt($username, ConfigHandler::get("app","key"));
-        $encryptedEmail = EncryptionHandler::encrypt($email, ConfigHandler::get("app","key"));
-        $encryptedFirstName = EncryptionHandler::encrypt($first_name, ConfigHandler::get("app","key"));
-        $encryptedLastName = EncryptionHandler::encrypt($last_name, ConfigHandler::get("app","key"));
-        $encryptedIp = EncryptionHandler::encrypt($ip, ConfigHandler::get("app","key"));
-        $encryptedAvatar = EncryptionHandler::encrypt($avatar, ConfigHandler::get("app","key"));
-        $encryptedUID = EncryptionHandler::encrypt($uid, ConfigHandler::get("app","key"));
+        $encryptedUsername = EncryptionHandler::encrypt($username, ConfigHandler::get("app", "key"));
+        $encryptedEmail = EncryptionHandler::encrypt($email, ConfigHandler::get("app", "key"));
+        $encryptedFirstName = EncryptionHandler::encrypt($first_name, ConfigHandler::get("app", "key"));
+        $encryptedLastName = EncryptionHandler::encrypt($last_name, ConfigHandler::get("app", "key"));
+        $encryptedIp = EncryptionHandler::encrypt($ip, ConfigHandler::get("app", "key"));
+        $encryptedAvatar = EncryptionHandler::encrypt($avatar, ConfigHandler::get("app", "key"));
+        $encryptedUID = EncryptionHandler::encrypt($uid, ConfigHandler::get("app", "key"));
         $stmt->bind_param(
             "sssssssssss",
             $encryptedUsername,

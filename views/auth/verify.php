@@ -1,5 +1,9 @@
 <?php
 use MythicalClient\Handlers\DatabaseConnectionHandler;
+if (isset($_COOKIE['token']) && !$_COOKIE['token'] == null) {
+    header('location: /dashboard');
+    die();
+}
 
 $conn = DatabaseConnectionHandler::getConnection();
 

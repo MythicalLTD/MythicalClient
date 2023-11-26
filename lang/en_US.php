@@ -18,7 +18,6 @@ return [
     "authentication" => "Authentication",
     "invalid_csrf_token" => "Invalid CSRF token.",
     "empty_form" => "Please fill in all the required fields.",
-    "invalid_email" => "Please fill in and valid email address.",
     "captcha_failed" => "Captcha verification failed.",
     "blocked_username" => "It looks like we blocked this username from being used. Please choose another username.",
     "name_invalid" => "Please only use characters from A-Z in your name.", 
@@ -29,17 +28,29 @@ return [
     "db_error" => "We are sorry but we can't add you in our database due an unexpected error",
     "not_found_in_db" => "We can't find this in the database.",
     "maintenance" => "Maintenance",
-    //Registration Page Translations
+    "reset_password" => "Reset Password",
+    "invalid_password" => "The provided password is invalid!",
+    "invalid_email" => "The provided email is invalid!",
+    "banned" => "Your account is banned!",
+    "forgot_password" => "Forgot Password",
+    //Registration Page
     "register_tos_1" => "I agree with the ",
     "register_welcome" => "Welcome to ",
     "register_create_new_acc" => "Create a new account",
     "register_alr_have_an_acc" => "Already have account?",
+    //Login Page 
+    "login_welcome" => "Welcome to ",
+    "login_login" => "Login",
+    "login_no_acc" => "Don't have an account?",
+    //Forgot Password Page
+    "forgot_password_desc" => "Enter your email address and your password will be reset and emailed to you.",
+    "forgot_go_back" => "Go back to",
+    //Reset Password Page
+    "reset_password_desc" => "Enter the new password that you want to setup for your account!",
+    "reset_password_back" => "Go back to",
     //Email verification page
     "email_code_wrong" => "The email verification code expired, or it is not valid!",
     "email_success" => "Email verified. You can log in now.",
-    //Mail messages
-    "account_creation_thanks" => "Thanks for creating an account at",
-    "account_creation_link" => "Please make sure to verify it by clicking on this link:",
     //Error pages
     "error_title" => "Oops… You just found an error page",
     "error_to_home" => "Back to home",

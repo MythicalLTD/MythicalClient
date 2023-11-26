@@ -283,7 +283,71 @@ $lang = App::getLang();
                     }
                     toastr["error"]("<?= $lang['db_error'] ?>", "<?= $lang['authentication'] ?>")
                 <?php
+            }  else if ($_GET['e'] == 'invalid_password') {
+                ?>
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    toastr["error"]("<?= $lang['invalid_password'] ?>", "<?= $lang['authentication'] ?>")
+                <?php
+            }  else if ($_GET['e'] == 'banned') {
+                ?>
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    toastr["error"]("<?= $lang['banned'] ?>", "<?= $lang['authentication'] ?>")
+                <?php
+            } else if ($_GET['e'] == 'not_found_in_db') {
+                ?>
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    toastr["error"]("<?= $lang['not_found_in_db'] ?>", "<?= $lang['authentication'] ?>")
+                <?php
             } 
+             
         }
     }
     ?>
