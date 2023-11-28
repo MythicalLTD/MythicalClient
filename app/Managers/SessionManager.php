@@ -24,7 +24,6 @@ class SessionManager
             $result = mysqli_query($this->dbConnection, $query);
 
             if (mysqli_num_rows($result) > 0) {
-                session_start();
                 $_SESSION["token"] = $session_id;
                 $_SESSION['loggedin'] = true;
             } else {

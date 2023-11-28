@@ -16,7 +16,12 @@ $router->add('/', function() {
     }
 });
 
-$router->add('/dashboard', function () {
-    require("../views/dashboard.php");
-});
+try {
+    $router->add('/dashboard', function () {
+        require("../views/dashboard.php");
+    });
+} catch (Exception $ex) {
+    App::Crash("Failed to build frontend: ".$ex);
+    die();
+}
 ?>
