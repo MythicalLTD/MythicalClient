@@ -73,7 +73,7 @@ class App
             <link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/117385445">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
             <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-            <link rel="stylesheet" href="https://unpkg.com/simplebar@5.3.4/dist/simplebar.min.css">
+            <link rel="stylesheet" href="https://unpkg.com/simplebar@5.3.4/auth/dist/simplebar.min.css">
             <style>
                 body {
                     overflow: hidden;
@@ -287,7 +287,7 @@ class App
                 </div>
             </div>
             <script>document.addEventListener("DOMContentLoaded", function () { setTimeout(function () { !function e() { let n = document.querySelector(".preloader"); n.style.opacity = "0", setTimeout(() => { n.style.display = "none", document.body.classList.remove("loading") }, 3500) }() }, 3500), particlesJS("particles-js", { particles: { number: { value: 160, density: { enable: !0, value_area: 800 } }, color: { value: "#ffffff" }, shape: { type: "circle", stroke: { width: 0, color: "#000000" }, polygon: { nb_sides: 5 }, image: { src: "img/github.svg", width: 100, height: 100 } }, opacity: { value: 1, random: !0, anim: { enable: !0, speed: 1, opacity_min: 0, sync: !1 } }, size: { value: 3, random: !0, anim: { enable: !1, speed: 4, size_min: .3, sync: !1 } }, line_linked: { enable: !1, distance: 150, color: "#ffffff", opacity: .4, width: 1 }, move: { enable: !0, speed: 1, direction: "none", random: !0, straight: !1, out_mode: "out", bounce: !1, attract: { enable: !1, rotateX: 600, rotateY: 600 } } }, interactivity: { detect_on: "canvas", events: { onhover: { enable: !0, mode: "bubble" }, onclick: { enable: !0, mode: "push" }, resize: !0 }, modes: { grab: { distance: 0, line_linked: { opacity: 1 } }, bubble: { distance: 250, size: 0, duration: 2, opacity: 0, speed: 3 }, repulse: { distance: 400, duration: .4 }, push: { particles_nb: 4 }, remove: { particles_nb: 2 } } }, retina_detect: !0 }) });</script>
-            <script src="https://unpkg.com/simplebar@5.3.4/dist/simplebar.min.js"></script>
+            <script src="https://unpkg.com/simplebar@5.3.4/auth/dist/simplebar.min.js"></script>
             <script>
                 new SimpleBar(document.querySelector('[data-simplebar]'));
             </script>

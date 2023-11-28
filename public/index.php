@@ -10,19 +10,20 @@
  * Copyright 2023 MythicalSystems 
  * Copyright 2023 NaysKutzu
  */
+
+// Load dependencies and set up error handling
 try {
     if (file_exists('../vendor/autoload.php')) {
         require("../vendor/autoload.php");
     } else {
-        die('Hello, it looks like you did not run:  "<code>composer install --no-dev --optimize-autoloader</code>". Please run that and refresh the page');
+        die('Hello, it looks like you did not run: "<code>composer install --no-dev --optimize-autoloader</code>". Please run that and refresh the page');
     }
 } catch (Exception $e) {
-    die('Hello, it looks like you did not run:  <code>composer install --no-dev --optimize-autoloader</code> Please run that and refresh');
+    die('Hello, it looks like you did not run: <code>composer install --no-dev --optimize-autoloader</code> Please run that and refresh');
 }
+
 use MythicalClient\App;
 use MythicalClient\Handlers\ConfigHandler;
-use MythicalClient\Handlers\EncryptionHandler;
-use MythicalClient\Managers\AddonsManager;
 
 /**
  * Check if the client area has access to the directory!
@@ -31,6 +32,7 @@ if (!is_writable(__DIR__)) {
     App::Crash("We have no access to our client directory. Open the terminal and run: chown -R www-data:www-data /var/www/MythicalClient/*");
     die();
 }
+
 /**
  * Check if app is running on https
  */
