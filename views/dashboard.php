@@ -94,9 +94,53 @@ require(__DIR__ . '/requirements/page.php');
               </svg></a>
             <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-nide-dots shadow border border-300" aria-labelledby="navbarDropdownNindeDots">
               <div class="card bg-white position-relative border-0">
-                <div class="card-body pt-3 px-3 pb-0 overflow-auto scrollbar" style="height: 20rem;">
+                <div class="card-body pt-3 px-3 pb-0 overflow-auto scrollbar" style="height: 11rem;">
                   <div class="row text-center align-items-center gx-0 gy-0">
-                    <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="assets/img/nav-icons/behance.webp" alt="" width="30" />
+                  <?php
+                  if (!ConfigHandler::get("social_links", "twitter") == null) {
+                    ?>
+                            <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="<?= ConfigHandler::get("social_links", "twitter") ?>"><img src="assets/img/nav-icons/twitter.webp" alt="" width="30" />
+                              <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Twitter</p>
+                            </a></div>
+                            <?php
+                  }
+                  if (!ConfigHandler::get("social_links", "discord") == null) {
+                    ?>
+                            <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="<?= ConfigHandler::get("social_links", "discord") ?>"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.svg" alt="" width="30" />
+                                <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Discord</p>
+                              </a></div>
+                          <?php
+                  }
+                  if (!ConfigHandler::get("social_links", "guilded") == null) {
+                    ?>
+                            <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="<?= ConfigHandler::get("social_links", "guilded") ?>"><img src="https://img.guildedcdn.com/asset/Logos/logomark/Color/Guilded_Logomark_Color.png" alt="" width="30" />
+                                <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Guilded</p>
+                              </a></div>
+                          <?php
+                  }
+                  if (!ConfigHandler::get("social_links", "youtube") == null) {
+                    ?>
+                            <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="<?= ConfigHandler::get("social_links", "youtube") ?>"><img src="https://www.cdnlogo.com/logos/y/57/youtube-icon.svg" alt="" width="30" />
+                                <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">YouTube</p>
+                              </a></div>
+                          <?php
+                  }
+                  if (!ConfigHandler::get("social_links", "github") == null) {
+                    ?>
+                            <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="<?= ConfigHandler::get("social_links", "github") ?>"><img src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" alt="" width="30" />
+                                <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">GitHub</p>
+                              </a></div>
+                          <?php
+                  }
+                  if (!ConfigHandler::get("social_links", "reddit") == null) {
+                    ?>
+                            <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="<?= ConfigHandler::get("social_links", "reddit") ?>"><img src="https://lingo-production.s3.amazonaws.com/thumbnails/070e6588-5353-4441-85d3-8af6108025b6/EFFzE1KmLil1WO3_ZqfHMwgNTRYLKqNwipEuVdUrgmI/480.png" alt="" width="30" />
+                                <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Reddit</p>
+                              </a></div>
+                          <?php
+                  }
+                  ?>
+                    <!--<div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="assets/img/nav-icons/behance.webp" alt="" width="30" />
                         <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Behance</p>
                       </a></div>
                     <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="assets/img/nav-icons/google-cloud.webp" alt="" width="30" />
@@ -137,7 +181,7 @@ require(__DIR__ . '/requirements/page.php');
                       </a></div>
                     <div class="col-4"><a class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3" href="#!"><img src="assets/img/nav-icons/spotify.webp" alt="" width="30" />
                         <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Spotify</p>
-                      </a></div>
+                      </a></div>-->
                   </div>
                 </div>
               </div>
@@ -1191,7 +1235,7 @@ require(__DIR__ . '/requirements/page.php');
               <p class="mb-0 mt-2 mt-sm-0 text-900">Copyright (C) <a class="mx-1" href="https://github.com/mythicalltd/mythicalclient">MythicalSystems</a><span class="d-none d-sm-inline-block"></span> </span><br class="d-sm-none" />2022-2023</p>
             </div>
             <div class="col-12 col-sm-auto text-center">
-              <p class="mb-0 text-600">v<?= ConfigHandler::get("static","version") ?> <code><?= ConfigHandler::get("static","channel") ?></code></p>
+              <p class="mb-0 text-600">v<?= ConfigHandler::get("static", "version") ?> <code><?= ConfigHandler::get("static", "channel") ?></code></p>
             </div>
           </div>
         </footer>

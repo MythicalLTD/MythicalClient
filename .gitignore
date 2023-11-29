@@ -3,3 +3,6 @@ composer.phar
 /logs/*.log
 config.ini
 /caches/*.json
+/MythicalClient/bin
+/MythicalClient/obj
+/logs/*.txt
