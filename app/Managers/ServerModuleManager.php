@@ -127,6 +127,11 @@ class ServerModuleManager
     public function enableModule($moduleName)
     {
         if (!in_array($moduleName, $this->enabledModules)) {
+            // Remove from disabledModules if it exists there
+            if (($key = array_search($moduleName, $this->disabledModules)) !== false) {
+                unset($this->disabledModules[$key]);
+            }
+
             $this->enabledModules[] = $moduleName;
             $this->saveModuleCache();
         }
@@ -172,31 +177,5 @@ class ServerModuleManager
         }
 
         return $modulesInfo;
-    }
-
-    /**
-     * Execute all loaded modules.
-     */
-    public function executeModules()
-    {
-        foreach ($this->modules as $moduleName => $module) {
-            $module->execute();
-        }
-    }
-
-    /**
-     * Execute a specific action for a module.
-     *
-     * @param string $moduleName
-     * @param string $action
-     * @param array $config
-     */
-    public function executeAction($moduleName, $action, $config)
-    {
-        if (isset($this->modules[$moduleName])) {
-            $this->modules[$moduleName]->executeAction($action, $config);
-        } else {
-            App::Crash("Module not loaded: {$moduleName}");
-        }
     }
 }

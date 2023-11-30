@@ -21,25 +21,7 @@ if (isset($_POST['action']) && isset($_POST['moduleName'])) {
     header('Location: /test');
     exit();
 } else if (isset($_GET['pterodactyl'])) {
-    spl_autoload_register(function ($class) {
-        $prefix = 'Pterodactyl\\';
-        $base_dir = __DIR__ . '/';
     
-        $len = strlen($prefix);
-        if (strncmp($prefix, $class, $len) === 0) {
-            $relative_class = substr($class, $len);
-            $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
-    
-            if (file_exists($file)) {
-                require $file;
-            }
-        }
-    });
-
-    $addonManager->loadAddon('Pterodactyl', 'Pterodactyl');
-    $userManager = $addonManager->getAddon('Pterodactyl');
-    die($userManager->CreateUser('user@example.com', 'john_doe', 'secure_password'));
-
 }
 
 // Display information about all modules in an HTML table
