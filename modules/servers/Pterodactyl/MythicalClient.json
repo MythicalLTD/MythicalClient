@@ -1,8 +1,7 @@
 {
-    "name": "Pterodactyl",
-    "author": "NaysKutzu",
-    "description": "Pterodactyl® is a free, open-source game server management panel.",
-    "version": "1.0",
-    "icon": "https://pterodactyl.io/logos/pterry.svg"
-  }
-  
+  "name": "Pterodactyl",
+  "author": "NaysKutzu",
+  "description": "Pterodactyl® is a free, open-source game server management panel.",
+  "version": "1.0",
+  "icon": "https://pterodactyl.io/logos/pterry.svg"
+}

@@ -21,7 +21,11 @@ if (isset($_POST['action']) && isset($_POST['moduleName'])) {
     header('Location: /test');
     exit();
 } else if (isset($_GET['pterodactyl'])) {
-    
+    $moduleName = "Pterodactyl";
+    $module = new $moduleName;
+
+    $result = $module->CreateUser('user@example.com', 'myUsername', 'myPassword');
+    echo $result;
 }
 
 // Display information about all modules in an HTML table

@@ -54,3 +54,4 @@ use MythicalClient\Handlers\ConfigHandler;
 <link href="/vendors/leaflet/leaflet.css" rel="stylesheet">
 <link href="/vendors/leaflet.markercluster/MarkerCluster.css" rel="stylesheet">
 <link href="/vendors/leaflet.markercluster/MarkerCluster.Default.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet">
