@@ -88,16 +88,11 @@ foreach ($phpFiles as $phpFile) {
     include $phpFile;
 }
 
-$router->add("/mythicalguard", function () {
-    require("../views/mythicalguard/home.php");
-});
-
 $router->add("/(.*)", function () {
     require("../views/errors/404.php");
 });
 
 try {
-    
     $router->route();
 } catch (Exception $e) {
     App::Crash("Failed to start the app route system: " . $e->getMessage());

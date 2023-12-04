@@ -36,6 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $row = mysqli_fetch_assoc($result);
                             $hashedPassword = $row['password'];
                             if (password_verify($password, $hashedPassword)) {
+                                if (!$row['verification_code'] == null) {
+                                    header('location: /auth/login?s=check_email');
+                                    $conn->close();
+                                    die();
+                                }
                                 $banned = $row['banned'];
                                 if (!$banned == null) {
                                     header('location: /auth/login?e=banned');

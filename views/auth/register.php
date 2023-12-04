@@ -95,8 +95,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             }
                         }
                         $token = $session->createKey($username, $email);
+                        $myToken = "mcc_".base64_encode($token);
                         $user_id = SnowflakeManager::getUniqueUserID();
-                        $conn->query("INSERT INTO ip_logs (ipaddr, usertoken) VALUES ('" . mysqli_real_escape_string($conn, $session->getIP()) . "', '" . mysqli_real_escape_string($conn, $token) . "')");
+                        $conn->query("INSERT INTO ip_logs (ipaddr, usertoken) VALUES ('" . mysqli_real_escape_string($conn, $session->getIP()) . "', '" . mysqli_real_escape_string($conn, $myToken) . "')");
                         $default = "https://www.gravatar.com/avatar/00000000000000000000000000000000";
                         $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . urlencode($default);
                         if (!$code == null) {

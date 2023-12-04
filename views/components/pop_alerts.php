@@ -30,6 +30,28 @@ $lang = App::getLang();
                 toastr["success"]("<?= $lang['email_success'] ?>", "<?= $lang['authentication'] ?>")
                 <?php
             }
+            else if ($_GET['s'] == 'check_email') {
+                ?>
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr["success"]("<?= $lang['check_email'] ?>", "<?= $lang['authentication'] ?>")
+                <?php
+            }
         } else if (isset($_GET['e']) && !$_GET['e'] == null) {
             if ($_GET['e'] == 'csrf_failed') {
                 ?>

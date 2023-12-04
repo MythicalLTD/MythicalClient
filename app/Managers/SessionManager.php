@@ -123,6 +123,62 @@ class SessionManager
     }
 
     /**
+     * Update account settings inside the database 
+     * 
+     * @param string $user_id The user id
+     * @param string $first_name The first name
+     * @param string $last_name The last name 
+     * @param string $email The email
+     * @param string $password The password
+     * 
+     * @return bool The stauts
+     */
+    public function updateAccount($user_id, $first_name, $last_name, $email, $password)
+    {
+        $query = "UPDATE `users` SET";
+
+        $params = array();
+        $types = "";
+
+        if ($email !== null) {
+            $query .= " email = ?,";
+            $params[] = EncryptionHandler::encrypt($email, ConfigHandler::get("app", "key"));
+            $types .= "s";
+        }
+
+        if ($password !== null) {
+            $query .= " password = ?,";
+            $params[] = $password;
+            $types .= "s";
+        }
+
+        if ($first_name !== null) {
+            $query .= " first_name = ?,";
+            $params[] = EncryptionHandler::encrypt($first_name, ConfigHandler::get("app", "key"));
+            $types .= "s";
+        }
+
+        if ($last_name !== null) {
+            $query .= " last_name = ?,";
+            $params[] = EncryptionHandler::encrypt($last_name, ConfigHandler::get("app", "key"));
+            $types .= "s";
+        }
+
+        $query = rtrim($query, ',');
+
+        $query .= " WHERE token = ?";
+        $params[] = $user_id;
+        $types .= "s";
+
+        $stmt = $this->dbConnection->prepare($query);
+
+        $stmt->bind_param($types, ...$params);
+
+        return $stmt->execute();
+    }
+
+
+    /**
      * Create a user secret key
      * 
      * @param string $username The username of the user
@@ -179,6 +235,7 @@ class SessionManager
         $encryptedIp = EncryptionHandler::encrypt($ip, ConfigHandler::get("app", "key"));
         $encryptedAvatar = EncryptionHandler::encrypt($avatar, ConfigHandler::get("app", "key"));
         $encryptedUID = EncryptionHandler::encrypt($uid, ConfigHandler::get("app", "key"));
+        $myToken = "mcc_".base64_encode($token);
         $stmt->bind_param(
             "sssssssssss",
             $encryptedUsername,
@@ -188,7 +245,7 @@ class SessionManager
             $password,
             $encryptedAvatar,
             $encryptedUID,
-            $token,
+            $myToken,
             $encryptedIp,
             $encryptedIp,
             $verification_code

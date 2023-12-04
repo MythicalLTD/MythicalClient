@@ -207,16 +207,14 @@ use MythicalClient\Handlers\EncryptionHandler;
                                 <?= EncryptionHandler::decrypt($session->getUserInfo("last_name"), ConfigHandler::get("app", "key")) ?>
                             </h6>
                         </div>
-                        <div class="mb-3 mx-3"><input class="form-control form-control-sm" id="statusUpdateInput"
-                                type="text" placeholder="Update your status" /></div>
                     </div>
                     <div class="overflow-auto scrollbar" style="height: 6.80rem;">
                         <ul class="nav d-flex flex-column mb-2 pb-1">
-                            <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900"
+                            <li class="nav-item"><a class="nav-link px-3" href="/account"> <span class="me-2 text-900"
                                         data-feather="user"></span><span>Profile</span></a></li>
-                            <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900"
-                                        data-feather="lock"></span>Activity</a></li>
-                            <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900"
+                            <li class="nav-item"><a class="nav-link px-3" href="/account/activity"> <span
+                                        class="me-2 text-900" data-feather="lock"></span>Activity</a></li>
+                            <li class="nav-item"><a class="nav-link px-3" href="/account"> <span class="me-2 text-900"
                                         data-feather="settings"></span>Settings </a></li>
                         </ul>
                     </div>
@@ -225,7 +223,8 @@ use MythicalClient\Handlers\EncryptionHandler;
                     <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="user-plus"></span>Add another account</a></li>
                   </ul>
                   <hr />--><br>
-                        <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="#!">
+                        <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100"
+                                href="/auth/logout">
                                 <span class="me-2" data-feather="log-out"> </span>Sign out</a></div>
                         <div class="my-2 text-center fw-bold fs--2 text-600"><a class="text-600 me-1" href="#!">Privacy
                                 policy</a>&bull;<a class="text-600 mx-1" href="#!">Terms of Service</a></div>
@@ -235,6 +234,6 @@ use MythicalClient\Handlers\EncryptionHandler;
         </li>
     </ul>
 </nav>
-<?php 
-include(__DIR__."/modals/search.php");
+<?php
+include(__DIR__ . "/modals/search.php");
 ?>
