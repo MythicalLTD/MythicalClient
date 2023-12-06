@@ -2,6 +2,7 @@
 use MythicalClient\Managers\ServerModuleManager;
 
 
+
 $moduleManager = new ServerModuleManager();
 
 // Handle enabling or disabling modules based on the request
@@ -24,7 +25,7 @@ if (isset($_POST['action']) && isset($_POST['moduleName'])) {
     $moduleName = "Pterodactyl";
     $module = new $moduleName;
 
-    $result = $module->CreateUser('user@example.com', 'myUsername', 'myPassword');
+    //$result = $module->CreateUser('user@example.com', 'myUsername', 'myPassword');
     echo $result;
 }
 

@@ -42,6 +42,8 @@ return [
     "cancel_changes" => "Cancel Changes",
     "save_information" => "Save Information",
     "reset" => "Reset",
+    "user_activity" => "User Activity",
+    "user_activity_info" => "List of activities for",
     //Registration Page
     "register_tos_1" => "I agree with the ",
     "register_welcome" => "Welcome to ",
