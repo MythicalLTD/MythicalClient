@@ -6,6 +6,10 @@ use MythicalClient\Handlers\EncryptionHandler;
 use MythicalClient\Managers\SessionManager;
 use MythicalClient\Handlers\ConfigHandler;
 use MythicalClient\CloudFlare\Turnstile;
+use MythicalClient\Managers\ActivityManager;
+
+
+$ActivityManager = new ActivityManager();
 
 if (isset($_COOKIE['token']) && !$_COOKIE['token'] == null) {
     header('location: /dashboard');
@@ -38,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             if (password_verify($password, $hashedPassword)) {
                                 if (!$row['verification_code'] == null) {
                                     header('location: /auth/login?s=check_email');
+                                    $ActivityManager->addActivity(EncryptionHandler::decrypt($row['user_id'],ConfigHandler::get("app","key")),EncryptionHandler::decrypt($row['username'],ConfigHandler::get("app","key")),"Failed log in",$session->getIP(),"auth:fail");
                                     $conn->close();
                                     die();
                                 }
@@ -79,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 if (ConfigHandler::get("other", "allow_alts") == "false") {
                                     if (count($userids) !== 0) {
                                         header('location: /auth/login?e=alting');
+                                        $ActivityManager->addActivity(EncryptionHandler::decrypt($row['user_id'],ConfigHandler::get("app","key")),EncryptionHandler::decrypt($row['username'],ConfigHandler::get("app","key")),"Failed log in",$session->getIP(),"auth:fail");
                                         $conn->close();
                                         die();
                                     }
@@ -90,6 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 setcookie($cookie_name, $cookie_value, time() + (10 * 365 * 24 * 60 * 60), '/');
                                 $conn->query("UPDATE `users` SET `last_ip` = '" . EncryptionHandler::encrypt(mysqli_real_escape_string($conn, $session->getIP()), ConfigHandler::get("app", "key")) . "' WHERE `users`.`token` = '" . mysqli_real_escape_string($conn, $account_token) . "';");
                                 EmailHandler::SendLogin($email, EncryptionHandler::decrypt(mysqli_real_escape_string($conn, $row['first_name']), ConfigHandler::get("app", "key")), EncryptionHandler::decrypt(mysqli_real_escape_string($conn, $row['last_name']), ConfigHandler::get("app", "key")), mysqli_real_escape_string($conn, $session->getIP()), $iploc);
+                                $ActivityManager->addActivity(EncryptionHandler::decrypt($row['user_id'],ConfigHandler::get("app","key")),EncryptionHandler::decrypt($row['username'],ConfigHandler::get("app","key")),"Logged in",$session->getIP(),"auth:success");
                                 if (isset($_GET['r'])) {
                                     header('location: ' . $_GET['r']);
                                     $conn->close();
@@ -101,6 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 }
                             } else {
                                 header('location: /auth/login?e=invalid_password');
+                                $ActivityManager->addActivity(EncryptionHandler::decrypt($row['user_id'],ConfigHandler::get("app","key")),EncryptionHandler::decrypt($row['username'],ConfigHandler::get("app","key")),"Failed log in",$session->getIP(),"auth:fail");
                                 $conn->close();
                                 die();
                             }

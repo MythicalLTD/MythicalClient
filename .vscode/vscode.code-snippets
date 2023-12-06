@@ -4,7 +4,7 @@
 		"scope": "php",
 		"body": [
 			"\\$router->add('$1', function () {",
-			"\t\trequire(\"../$2\");",
+			"\trequire(\"../$2\");",
 			"});"
 		],
 		"description": "This will add a new route for the app!"
@@ -45,7 +45,7 @@
 		"prefix": "S_EncryptString",
 		"scope": "php",
 		"body": [
-			"EncryptionHandler::encrypt(\"$1\",ConfigHandler::get(\"app\",\"key\"))"
+			"EncryptionHandler::encrypt($1,ConfigHandler::get(\"app\",\"key\"))"
 		],
 		"description": "Encrypt a string using the encryption system!"
 	}, 
@@ -53,7 +53,7 @@
 		"prefix": "S_DecryptString",
 		"scope": "php",
 		"body": [
-			"EncryptionHandler::decrypt(\"$1\",ConfigHandler::get(\"app\",\"key\"))"
+			"EncryptionHandler::decrypt($1,ConfigHandler::get(\"app\",\"key\"))"
 		],
 		"description": "Decrypt a string using the encryption system!"
 	},
@@ -64,5 +64,13 @@
 			"\\$$1 = mysqli_real_escape_string(\\$conn, $2);"
 		],
 		"description": "Make a string that will be SQLI protected."
+	},
+	"Add an activity": {
+		"prefix": "S_NewActivity",
+		"scope": "php",
+		"body": [
+			"\\$ActivityManager->addActivity(EncryptionHandler::decrypt(\\$session->getUserInfo(\"user_id\"),ConfigHandler::get(\"app\",\"key\")),EncryptionHandler::decrypt(\\$session->getUserInfo(\"username\"), ConfigHandler::get(\"app\", \"key\")),\"$1\",\\$session->getIP(),\"$2\");"
+		],
+		"description": "Add an activity to the logs!"
 	}
 }

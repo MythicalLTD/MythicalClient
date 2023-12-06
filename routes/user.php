@@ -7,4 +7,7 @@ $router->add('/account/reset/key', function () {
     require("../views/account/key_reset.php");
 });
 
+$router->add('/account/activity', function () {
+    require("../views/account/activity.php");
+});
 ?>

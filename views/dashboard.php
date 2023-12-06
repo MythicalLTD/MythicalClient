@@ -1,7 +1,5 @@
 <?php
 use MythicalClient\Handlers\ConfigHandler;
-use MythicalClient\Handlers\EncryptionHandler;
-
 require(__DIR__ . '/requirements/page.php');
 ?>
 <!DOCTYPE html>
