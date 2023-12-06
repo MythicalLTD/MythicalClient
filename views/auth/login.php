@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         die();
                                     }
                                 }
-                                $iploc = $data['country'] . ' ' . $data['city'] . '';
+                                $iploc = $data['country'] . ' (' . $data['city'] . ')';
                                 $userids = array();
                                 $loginlogs = mysqli_query($conn, "SELECT * FROM ip_logs WHERE usertoken = '" . mysqli_real_escape_string($conn, $account_token) . "'");
                                 foreach ($loginlogs as $login) {
