@@ -16,6 +16,7 @@ return [
     "login" => "Login",
     "register" => "Register",
     "balance" => "Coins",
+    "joinned" => "Joinned",
     "authentication" => "Authentication",
     "invalid_csrf_token" => "Invalid CSRF token.",
     "empty_form" => "Please fill in all the required fields.",
@@ -81,6 +82,9 @@ return [
     "account_delete_info" => "This option will remove your account from our database and delete all your products and services!",
     "account_delete_button" => "Delete account",
     "account_token" => "Account token",
-    "account_id" => "Account id"
+    "account_id" => "Account id",
+    //Profile page:
+    "send_coins" => "Send coins",
+    "manage_user" => "Manage user"
 ]
 ?>

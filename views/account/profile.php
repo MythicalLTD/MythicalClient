@@ -9,7 +9,7 @@ $conn = DatabaseConnectionHandler::getConnection();
 if (isset($account_id) && !$account_id == null) {
     $safe_account_id = mysqli_real_escape_string($conn, $account_id);
     if ($session->doesUserExist($safe_account_id) == true) {
-        
+
     } else {
         header('location: /404');
         die();
@@ -50,7 +50,7 @@ if (isset($account_id) && !$account_id == null) {
                     <div class="card-header hover-actions-trigger d-flex justify-content-center align-items-end position-relative mb-7 mb-xxl-0"
                         style="min-height: 214px; ">
                         <div class="bg-holder rounded-top"
-                            style="background-image:url(<?= ConfigHandler::get('app', 'background')?>);"></div>
+                            style="background-image:url(<?= ConfigHandler::get('app', 'background') ?>);"></div>
                         <!--/.bg-holder-->
                         <input class="d-none" id="upload-porfile-picture" type="file" />
                         <div class="hoverbox feed-profile" style="width: 150px; height: 150px">
@@ -82,7 +82,7 @@ if (isset($account_id) && !$account_id == null) {
                                             </span>
                                             <a class="text-1100">
                                                 <span class="fs-1 fw-bold text-600">
-                                                    Coins:
+                                                    <?= $lang['balance'] ?>:
                                                     <span class="fw-semi-bold ms-1 me-4">
                                                         <?= $session->getUserInfoID($safe_account_id, "coins", FALSE) ?>
                                                     </span>
@@ -94,7 +94,7 @@ if (isset($account_id) && !$account_id == null) {
                                             </span>
                                             <a class="text-1100">
                                                 <span class="fs-1 fw-bold text-600">
-                                                    Joinned:
+                                                    <?= $lang['joinned'] ?>:
                                                     <span class="fw-semi-bold ms-1 me-4">
                                                         <?= $session->getUserInfoID($safe_account_id, "registred", FALSE) ?>
                                                     </span>
@@ -107,10 +107,14 @@ if (isset($account_id) && !$account_id == null) {
                             <div class="col-auto">
                                 <div class="row g-2">
                                     <div class="col-auto order-xxl-2"><button class="btn btn-primary lh-1">
-                                            <span class="fa-solid fa-coins me-2"></span>Send Coins</button>
+                                            <span class="fa-solid fa-coins me-2"></span>
+                                            <?= $lang['send_coins'] ?>
+                                        </button>
                                     </div>
                                     <div class="col-auto order-xxl-1"><button class="btn btn-phoenix-primary lh-1">
-                                            <span class="fa-solid fa-user me-2"></span>Manager User</button>
+                                            <span class="fa-solid fa-user me-2"></span>
+                                            <?= $lang['manage_user'] ?>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
