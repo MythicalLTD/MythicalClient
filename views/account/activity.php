@@ -38,7 +38,7 @@ use MythicalCLient\Handlers\EncryptionHandler;
                         </h3>
                         <p class="text-700">
                             <?= $lang['user_activity_info'] ?>
-                            <?= htmlspecialchars(EncryptionHandler::decrypt($session->getUserInfo("username"), ConfigHandler::get("app", "key"))) ?>
+                            <?= htmlspecialchars($session->getUserInfoEncrypted("username")) ?>
                         </p>
                         <div class="echart-revenue-target-conversion"
                             style="min-height: 230px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;"
@@ -65,7 +65,7 @@ use MythicalCLient\Handlers\EncryptionHandler;
                                         <tbody class="list">
                                             <?php
                                             // Assuming $activityManager is an instance of your ActivityManager class
-                                            $activities = $ActivityManager->getActivities(EncryptionHandler::decrypt($session->getUserInfo("user_id"), ConfigHandler::get("app", "key")));
+                                            $activities = $ActivityManager->getActivities($session->getUserInfoEncrypted("user_id"));
 
                                             foreach($activities as $activity) {
                                                 ?>

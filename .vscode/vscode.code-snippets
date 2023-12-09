@@ -29,7 +29,7 @@
 		"prefix": "S_GetUserInfoDecrypt",
 		"scope": "php",
 		"body": [
-			"EncryptionHandler::decrypt(\\$session->getUserInfo(\"$1\"), ConfigHandler::get(\"app\", \"key\"))"
+			"\\$session->getUserInfoEncrypted(\"$1\")"
 		],
 		"description": "Get a user value from the database and decrypt it if it was encrypted!"
 	},
