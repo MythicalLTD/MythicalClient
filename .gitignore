@@ -6,3 +6,4 @@ config.ini
 /MythicalClient/bin
 /MythicalClient/obj
 /logs/*.txt
+/public/assets/1209.mp4

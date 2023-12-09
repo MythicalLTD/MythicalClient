@@ -38,8 +38,7 @@
     "require": {
         "php": ">=8.0.0",
         "mythicalsystems/php-router": "^1.0",
-        "phpmailer/phpmailer": "^6.8",
-        "predis/predis": "^2.2"
+        "phpmailer/phpmailer": "^6.8"
     },
     "minimum-stability": "stable",
     "autoload": {

@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     class="avatar avatar-4xl status-online feed-avatar-profile cursor-pointer"
                                     for="upload-settings-porfile-picture"><img
                                         class="rounded-circle img-thumbnail bg-white shadow-sm"
-                                        src="<?= EncryptionHandler::decrypt($session->getUserInfo('avatar'), ConfigHandler::get('app', 'key')) ?>"
+                                        src="<?= $session->getUserInfoEncrypted("avatar") ?>"
                                         width="200" alt="" /></label>
                             </div>
                             <div class="card-body">
@@ -118,10 +118,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <div class="col-12">
                                         <div class="d-flex flex-wrap mb-2 align-items-center">
                                             <h3 class="me-2">
-                                                <?= EncryptionHandler::decrypt($session->getUserInfo('first_name'), ConfigHandler::get('app', 'key')) ?>
-                                                <?= EncryptionHandler::decrypt($session->getUserInfo('last_name'), ConfigHandler::get('app', 'key')) ?>
+                                                <?= $session->getUserInfoEncrypted("first_name") ?>
+                                                <?= $session->getUserInfoEncrypted("last_name") ?>
                                             </h3><span class="fw-normal fs-0">
-                                                <?= EncryptionHandler::decrypt($session->getUserInfo('username'), ConfigHandler::get('app', 'key')) ?>
+                                                <?= $session->getUserInfoEncrypted("username") ?>
                                             </span>
                                         </div>
                                         <div class="d-flex d-xl-block d-xxl-flex align-items-center">
@@ -153,8 +153,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 <div class="form-floating">
                                                     <input class="form-control form-icon-input" required
                                                         name="first_name" type="text"
-                                                        value="<?= EncryptionHandler::decrypt($session->getUserInfo('first_name'), ConfigHandler::get('app', 'key')) ?>"
-                                                        placeholder="<?= EncryptionHandler::decrypt($session->getUserInfo('first_name'), ConfigHandler::get('app', 'key')) ?>" />
+                                                        value="<?= $session->getUserInfoEncrypted("first_name") ?>"
+                                                        placeholder="<?= $session->getUserInfoEncrypted("first_name") ?>" />
                                                     <label class="text-700 form-icon-label" for="firstName">
                                                         <?= strtoupper($lang['first_name']) ?>
                                                     </label>
@@ -167,8 +167,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 <div class="form-floating">
                                                     <input class="form-control form-icon-input" type="text" required
                                                         name="last_name"
-                                                        value="<?= EncryptionHandler::decrypt($session->getUserInfo('last_name'), ConfigHandler::get('app', 'key')) ?>"
-                                                        placeholder="<?= EncryptionHandler::decrypt($session->getUserInfo('last_name'), ConfigHandler::get('app', 'key')) ?>" />
+                                                        value="<?= $session->getUserInfoEncrypted("last_name") ?>"
+                                                        placeholder="<?= $session->getUserInfoEncrypted("last_name") ?>" />
                                                     <label class="text-700 form-icon-label" for="lastName">
                                                         <?= strtoupper($lang['last_name']) ?>
                                                     </label>
@@ -181,8 +181,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 <div class="form-floating">
                                                     <input class="form-control form-icon-input" required name="email"
                                                         type="email"
-                                                        placeholder="<?= EncryptionHandler::decrypt($session->getUserInfo('email'), ConfigHandler::get('app', 'key')) ?>"
-                                                        value="<?= EncryptionHandler::decrypt($session->getUserInfo('email'), ConfigHandler::get('app', 'key')) ?>" />
+                                                        placeholder="<?= $session->getUserInfoEncrypted("email") ?>"
+                                                        value="<?= $session->getUserInfoEncrypted("email") ?>" />
                                                     <label class="text-700 form-icon-label" for="emailSocial">
                                                         <?= strtoupper($lang['email']) ?>
                                                     </label>
@@ -197,8 +197,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                         type="text"
                                                         readonly
                                                         disabled
-                                                        placeholder="<?= EncryptionHandler::decrypt($session->getUserInfo("user_id"),ConfigHandler::get("app","key")) ?>"
-                                                        value="<?= EncryptionHandler::decrypt($session->getUserInfo("user_id"),ConfigHandler::get("app","key")) ?>" />
+                                                        placeholder="<?= $session->getUserInfoEncrypted("user_id") ?>"
+                                                        value="<?= $session->getUserInfoEncrypted("user_id") ?>" />
                                                     <label class="text-700 form-icon-label" for="id">
                                                         <?= strtoupper($lang['account_id']) ?>
                                                     </label>

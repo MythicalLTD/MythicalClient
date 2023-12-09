@@ -1,6 +1,5 @@
 <?php
 use MythicalClient\Handlers\ConfigHandler;
-use MythicalClient\Handlers\EncryptionHandler;
 
 ?>
 <nav class="navbar navbar-top fixed-top navbar-expand-lg" id="navbarCombo" data-navbar-top="combo"
@@ -185,7 +184,7 @@ use MythicalClient\Handlers\EncryptionHandler;
                 data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar avatar-l ">
                     <img class="rounded-circle "
-                        src="<?= EncryptionHandler::decrypt($session->getUserInfo("avatar"), ConfigHandler::get("app", "key")) ?>"
+                        src="<?= $session->getUserInfoEncrypted("avatar") ?>"
                         alt="" />
                 </div>
             </a>
@@ -196,15 +195,15 @@ use MythicalClient\Handlers\EncryptionHandler;
                         <div class="text-center pt-4 pb-3">
                             <div class="avatar avatar-xl ">
                                 <img class="rounded-circle "
-                                    src="<?= EncryptionHandler::decrypt($session->getUserInfo("avatar"), ConfigHandler::get("app", "key")) ?>"
+                                    src="<?= $session->getUserInfoEncrypted("avatar") ?>"
                                     alt="" />
                             </div>
                             <h5 class="mt-2 text-black">
-                                <?= EncryptionHandler::decrypt($session->getUserInfo("username"), ConfigHandler::get("app", "key")) ?>
+                                <?= $session->getUserInfoEncrypted("username") ?>
                             </h5>
                             <h6 class="mt-2 text-black">
-                                <?= EncryptionHandler::decrypt($session->getUserInfo("first_name"), ConfigHandler::get("app", "key")) ?>,
-                                <?= EncryptionHandler::decrypt($session->getUserInfo("last_name"), ConfigHandler::get("app", "key")) ?>
+                                <?= $session->getUserInfoEncrypted("first_name") ?>,
+                                <?= $session->getUserInfoEncrypted("last_name") ?>
                             </h6>
                         </div>
                     </div>
