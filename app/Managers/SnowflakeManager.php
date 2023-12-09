@@ -8,7 +8,7 @@ class SnowflakeManager
      * 
      * @return string The new user id 
      */
-    private static function generateUserID()
+    private static function generateUserID() : string 
     {
         return uniqid(true);
     }
@@ -18,7 +18,7 @@ class SnowflakeManager
      * 
      * @return array This will return the json file!
      */
-    private static function getCachedUserIDs()
+    private static function getCachedUserIDs() : array 
     {
         $filename = __DIR__ . '/../../caches/user_usedids.json';
 
@@ -37,9 +37,8 @@ class SnowflakeManager
      * 
      * @param string $user_id Save the user id inside the cache
      * 
-     * @return null Nothing this is a function
      */
-    private static function saveUserIDsToCache($user_id)
+    private static function saveUserIDsToCache(string $user_id) : void 
     {
         $filename = __DIR__ . '/../../caches/user_usedids.json';
         $json_data = json_encode($user_id, JSON_PRETTY_PRINT);
@@ -51,7 +50,7 @@ class SnowflakeManager
      * 
      * @return bool If this is used or not
      */
-    private static function isUserIDUsed($user_id, $user_ids)
+    private static function isUserIDUsed($user_id, $user_ids) : bool 
     {
         return in_array($user_id, $user_ids);
     }
@@ -61,7 +60,7 @@ class SnowflakeManager
      * 
      * @return string The user id
      */
-    public static function getUniqueUserID()
+    public static function getUniqueUserID() : string 
     {
         $new_user_id = self::generateUserID();
         $cached_user_ids = self::getCachedUserIDs();
@@ -80,7 +79,7 @@ class SnowflakeManager
      * 
      * @return bool True if the user ID was successfully deleted, false otherwise
      */
-    public static function deleteUserFromCache($user_id)
+    public static function deleteUserFromCache(string $user_id) : bool 
     {
         $cached_user_ids = self::getCachedUserIDs();
 
@@ -104,7 +103,7 @@ class SnowflakeManager
      * 
      * @return bool True if the user ID exists in the cache, false otherwise
      */
-    public static function doesUserExistInCache($user_id)
+    public static function doesUserExistInCache(string $user_id) : bool 
     {
         $cached_user_ids = self::getCachedUserIDs();
 

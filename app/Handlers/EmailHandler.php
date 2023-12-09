@@ -18,7 +18,7 @@ class EmailHandler
      * 
      * @return bool Status
      */
-    public static function SendVerification($email, $code, $first_name, $last_name)
+    public static function SendVerification(string $email, string $code, string $first_name, string $last_name) : bool 
     {
 
         $link = App::getUrl() . '/auth/verify?code=' . $code;
@@ -60,7 +60,7 @@ class EmailHandler
      * 
      * @return bool Status
      */
-    public static function SendReset($email,$first_name,$last_name,$code)
+    public static function SendReset(string $email, string $first_name, string $last_name, string $code) : bool
     {
 
         $link = App::getUrl() . '/auth/password/reset?code='.$code;
@@ -103,7 +103,7 @@ class EmailHandler
      * 
      * @return bool Status
      */
-    public static function SendLogin($email,$first_name,$last_name,$ip,$iploc)
+    public static function SendLogin(string $email, string $first_name, string $last_name, string $ip, string $iploc) : bool
     {
 
         $link = App::getUrl() . '/account/reset/key';

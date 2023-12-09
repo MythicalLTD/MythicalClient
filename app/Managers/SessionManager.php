@@ -98,7 +98,7 @@ class SessionManager
      * If user is not logged in it will reddirect them to login! 
      * This code also saves the url where the user is. 
      */
-    private function redirectToLogin($fullUrl) : void
+    private function redirectToLogin(string $fullUrl) : void
     {
         $this->deleteCookies();
         header('location: /auth/login?r=' . $fullUrl);

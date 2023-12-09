@@ -11,7 +11,7 @@ class Turnstile {
      * 
      * @return int
      */
-    public static function validate_captcha($cf_turnstile_response, $cf_connecting_ip, $cf_secret_key)
+    public static function validate_captcha(string $cf_turnstile_response, string $cf_connecting_ip, string $cf_secret_key) : int
     {
         $data = array(
             "secret" => $cf_secret_key,

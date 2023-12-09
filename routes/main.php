@@ -33,4 +33,13 @@ try {
     App::Crash("Failed to build frontend: ".$ex);
     die();
 }
+
+try {
+    $router->add('/search', function () {
+        require("../views/search.php");
+    });
+} catch (Exception $ex) {
+    App::Crash("Failed to build frontend: ".$ex);
+    die();
+}
 ?>

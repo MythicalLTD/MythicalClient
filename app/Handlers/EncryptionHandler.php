@@ -27,7 +27,7 @@ class EncryptionHandler
      * @param string $data Data to be encrypted
      * @param string $encryptionKey The key to encrypt the data
      */
-    public static function encrypt($data, $encryptionKey)
+    public static function encrypt(string $data, string $encryptionKey) : string
     {
         $encrypted = '';
         $keyLength = strlen($encryptionKey);
@@ -46,7 +46,7 @@ class EncryptionHandler
      * @param string $data Data to be decrypted
      * @param string $encryptionKey The key to decrypt the data
      */
-    public static function decrypt($encryptedData, $encryptionKey)
+    public static function decrypt(string $encryptedData, string $encryptionKey)
     {
         $encryptedData = base64_decode($encryptedData);
         $decrypted = '';
