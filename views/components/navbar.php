@@ -115,7 +115,7 @@ use MythicalClient\Handlers\ConfigHandler;
                                 <div class="col-4"><a
                                         class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
                                         href="<?= ConfigHandler::get("social_links", "twitter") ?>"><img
-                                            src="assets/img/nav-icons/twitter.webp" alt="" width="30" />
+                                            src="/assets/img/mythicalclient/x.jpg" alt="" width="30" />
                                         <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Twitter</p>
                                     </a></div>
                                 <?php
@@ -125,7 +125,7 @@ use MythicalClient\Handlers\ConfigHandler;
                                 <div class="col-4"><a
                                         class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
                                         href="<?= ConfigHandler::get("social_links", "discord") ?>"><img
-                                            src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.svg"
+                                            src="/assets/img/mythicalclient/discord.svg"
                                             alt="" width="30" />
                                         <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Discord</p>
                                     </a></div>
@@ -136,7 +136,7 @@ use MythicalClient\Handlers\ConfigHandler;
                                 <div class="col-4"><a
                                         class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
                                         href="<?= ConfigHandler::get("social_links", "guilded") ?>"><img
-                                            src="https://img.guildedcdn.com/asset/Logos/logomark/Color/Guilded_Logomark_Color.png"
+                                            src="/assets/img/mythicalclient/guilded.png"
                                             alt="" width="30" />
                                         <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Guilded</p>
                                     </a></div>
@@ -147,7 +147,7 @@ use MythicalClient\Handlers\ConfigHandler;
                                 <div class="col-4"><a
                                         class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
                                         href="<?= ConfigHandler::get("social_links", "youtube") ?>"><img
-                                            src="https://www.cdnlogo.com/logos/y/57/youtube-icon.svg" alt="" width="30" />
+                                            src="/assets/img/mythicalclient/youtube-icon.svg" alt="" width="30" />
                                         <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">YouTube</p>
                                     </a></div>
                                 <?php
@@ -157,7 +157,7 @@ use MythicalClient\Handlers\ConfigHandler;
                                 <div class="col-4"><a
                                         class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
                                         href="<?= ConfigHandler::get("social_links", "github") ?>"><img
-                                            src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" alt=""
+                                            src="/assets/img/mythicalclient/github.png" alt=""
                                             width="30" />
                                         <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">GitHub</p>
                                     </a></div>
@@ -168,7 +168,7 @@ use MythicalClient\Handlers\ConfigHandler;
                                 <div class="col-4"><a
                                         class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
                                         href="<?= ConfigHandler::get("social_links", "reddit") ?>"><img
-                                            src="https://lingo-production.s3.amazonaws.com/thumbnails/070e6588-5353-4441-85d3-8af6108025b6/EFFzE1KmLil1WO3_ZqfHMwgNTRYLKqNwipEuVdUrgmI/480.png"
+                                            src="/assets/img/mythicalclient/reddit.png"
                                             alt="" width="30" />
                                         <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Reddit</p>
                                     </a></div>
@@ -183,9 +183,7 @@ use MythicalClient\Handlers\ConfigHandler;
         <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button"
                 data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar avatar-l ">
-                    <img class="rounded-circle "
-                        src="<?= $session->getUserInfo("avatar",TRUE) ?>"
-                        alt="" />
+                    <img class="rounded-circle " src="<?= $session->getUserInfo("avatar", TRUE) ?>" alt="" />
                 </div>
             </a>
             <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border border-300"
@@ -194,8 +192,7 @@ use MythicalClient\Handlers\ConfigHandler;
                     <div class="card-body p-0">
                         <div class="text-center pt-4 pb-3">
                             <div class="avatar avatar-xl ">
-                                <img class="rounded-circle "
-                                    src="<?= $session->getUserInfo("avatar", TRUE) ?>"
+                                <img class="rounded-circle " src="<?= $session->getUserInfo("avatar", TRUE) ?>"
                                     alt="" />
                             </div>
                             <h5 class="mt-2 text-black">
@@ -209,12 +206,19 @@ use MythicalClient\Handlers\ConfigHandler;
                     </div>
                     <div class="overflow-auto scrollbar" style="height: 6.80rem;">
                         <ul class="nav d-flex flex-column mb-2 pb-1">
-                            <li class="nav-item"><a class="nav-link px-3" href="/account"> <span class="me-2 text-900"
-                                        data-feather="user"></span><span>Profile</span></a></li>
+                            <li class="nav-item"><a class="nav-link px-3"
+                                    href="/profile/<?= $session->getUserInfo("user_id", TRUE) ?>"> <span
+                                        class="me-2 text-900" data-feather="user"></span><span>
+                                        <?= $lang['profile'] ?>
+                                    </span></a></li>
                             <li class="nav-item"><a class="nav-link px-3" href="/account/activity"> <span
-                                        class="me-2 text-900" data-feather="lock"></span>Activity</a></li>
+                                        class="me-2 text-900" data-feather="lock"></span>
+                                    <?= $lang['activity'] ?>
+                                </a></li>
                             <li class="nav-item"><a class="nav-link px-3" href="/account"> <span class="me-2 text-900"
-                                        data-feather="settings"></span>Settings </a></li>
+                                        data-feather="settings"></span>
+                                    <?= $lang['settings'] ?>
+                                </a></li>
                         </ul>
                     </div>
                     <div class="card-footer p-0 border-top">
@@ -224,9 +228,14 @@ use MythicalClient\Handlers\ConfigHandler;
                   <hr />--><br>
                         <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100"
                                 href="/auth/logout">
-                                <span class="me-2" data-feather="log-out"> </span>Sign out</a></div>
-                        <div class="my-2 text-center fw-bold fs--2 text-600"><a class="text-600 me-1" href="#!">Privacy
-                                policy</a>&bull;<a class="text-600 mx-1" href="#!">Terms of Service</a></div>
+                                <span class="me-2" data-feather="log-out"> </span>
+                                <?= $lang['sign_out'] ?>
+                            </a></div>
+                        <div class="my-2 text-center fw-bold fs--2 text-600"><a class="text-600 me-1" href="#!">
+                                <?= $lang['privacy'] ?>
+                            </a>&bull;<a class="text-600 mx-1" href="#!">
+                                <?= $lang['terms'] ?>
+                            </a></div>
                     </div>
                 </div>
             </div>

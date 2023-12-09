@@ -1,5 +1,5 @@
 <?php
-require(__DIR__.'/../requirements/page.php');
+require(__DIR__ . '/../requirements/page.php');
 
 use MythicalClient\Handlers\ConfigHandler;
 use MythicalCLient\Handlers\EncryptionHandler;
@@ -10,7 +10,7 @@ use MythicalCLient\Handlers\EncryptionHandler;
 
 <head>
     <?php
-    require(__DIR__.'/../requirements/head.php');
+    require(__DIR__ . '/../requirements/head.php');
     ?>
     <title>
         <?= ConfigHandler::get('app', 'name') ?>
@@ -24,11 +24,11 @@ use MythicalCLient\Handlers\EncryptionHandler;
     <!-- ===============================================-->
     <main class="main" id="top">
         <?php
-        include(__DIR__.'/../components/navbar.php');
+        include(__DIR__ . '/../components/navbar.php');
         ?>
         <div class="content">
             <?php
-            include(__DIR__.'/../components/alerts.php');
+            include(__DIR__ . '/../components/alerts.php');
             ?>
             <div class="col-xl">
                 <div class="card h-100">
@@ -47,7 +47,7 @@ use MythicalCLient\Handlers\EncryptionHandler;
                                 <div class="search-box mb-3 mx-auto">
                                     <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
                                         <input class="form-control search-input search form-control-sm" type="search"
-                                            placeholder="Search" aria-label="Search" />
+                                            placeholder="<?= $lang['search']?>" aria-label="<?= $lang['search']?>" />
                                         <span class="fas fa-search search-box-icon"></span>
                                     </form>
                                 </div>
@@ -55,11 +55,21 @@ use MythicalCLient\Handlers\EncryptionHandler;
                                     <table class="table table-striped table-sm fs--1 mb-0">
                                         <thead>
                                             <tr>
-                                                <th class="sort border-top ps-3" data-sort="username">Username</th>
-                                                <th class="sort border-top" data-sort="description">Description</th>
-                                                <th class="sort border-top" data-sort="action">Action</th>
-                                                <th class="sort border-top" data-sort="time">Time</th>
-                                                <th class="sort border-top" data-sort="ip_address">IP Address</th>
+                                                <th class="sort border-top ps-3" data-sort="username">
+                                                    <?= $lang['username'] ?>
+                                                </th>
+                                                <th class="sort border-top" data-sort="description">
+                                                    <?= $lang['description'] ?>
+                                                </th>
+                                                <th class="sort border-top" data-sort="action">
+                                                    <?= $lang['action'] ?>
+                                                </th>
+                                                <th class="sort border-top" data-sort="time">
+                                                    <?= $lang['time'] ?>
+                                                </th>
+                                                <th class="sort border-top" data-sort="ip_address">
+                                                    <?= $lang['ip_address'] ?>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody class="list">
@@ -67,7 +77,7 @@ use MythicalCLient\Handlers\EncryptionHandler;
                                             // Assuming $activityManager is an instance of your ActivityManager class
                                             $activities = $ActivityManager->getActivities($session->getUserInfo("user_id", TRUE));
 
-                                            foreach($activities as $activity) {
+                                            foreach ($activities as $activity) {
                                                 ?>
                                                 <tr>
                                                     <td class="align-middle ps-3 username">
@@ -107,11 +117,11 @@ use MythicalCLient\Handlers\EncryptionHandler;
                 </div>
             </div>
             <?php
-            include(__DIR__.'/../components/footer.php');
+            include(__DIR__ . '/../components/footer.php');
             ?>
         </div>
     </main>
-    <?php require(__DIR__.'/../requirements/footer.php'); ?>
+    <?php require(__DIR__ . '/../requirements/footer.php'); ?>
     <script>var options = {
             valueNames: ['username', 'description', 'action', 'time', 'ip_address']
         };

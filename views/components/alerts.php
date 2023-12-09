@@ -1,6 +1,7 @@
 <?php
 
 use MythicalClient\App;
+
 $lang = App::getLang();
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['s']) && !$_GET['s'] == null) {

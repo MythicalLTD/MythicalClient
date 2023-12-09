@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="card-header hover-actions-trigger position-relative mb-6"
                                 style="min-height: 130px; ">
                                 <div class="bg-holder rounded-top"
-                                    style="background-image: linear-gradient(0deg, #000000 -3%, rgba(0, 0, 0, 0) 83%), url(../../assets/img/generic/59.png)">
+                                    style="background-image: linear-gradient(0deg, #000000 -3%, rgba(0, 0, 0, 0) 83%), url(<?= ConfigHandler::get('app', 'background') ?>)">
                                     <input class="d-none" id="upload-settings-cover-image" type="file" /><label
                                         class="cover-image-file-input" for="upload-settings-cover-image"></label>
                                     <div class="hover-actions end-0 bottom-0 pe-1 pb-2 text-white"><span
