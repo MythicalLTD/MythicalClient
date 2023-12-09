@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $password = null;
                 }
 
-                if (!$email == EncryptionHandler::decrypt($session->getUserInfo("email"), ConfigHandler::get("app", "key"))) {
+                if (!$email == $session->getUserInfo("email",TRUE)) {
                     $check_query = "SELECT * FROM users WHERE email = '" . EncryptionHandler::encrypt($email, ConfigHandler::get('app', 'key')) . "'";
                     $result = mysqli_query($conn, $check_query);
                     if (!mysqli_num_rows($result) > 0) {
@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     class="avatar avatar-4xl status-online feed-avatar-profile cursor-pointer"
                                     for="upload-settings-porfile-picture"><img
                                         class="rounded-circle img-thumbnail bg-white shadow-sm"
-                                        src="<?= $session->getUserInfoEncrypted("avatar") ?>"
+                                        src="<?= $session->getUserInfo("avatar",TRUE) ?>"
                                         width="200" alt="" /></label>
                             </div>
                             <div class="card-body">
@@ -118,17 +118,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <div class="col-12">
                                         <div class="d-flex flex-wrap mb-2 align-items-center">
                                             <h3 class="me-2">
-                                                <?= $session->getUserInfoEncrypted("first_name") ?>
-                                                <?= $session->getUserInfoEncrypted("last_name") ?>
+                                                <?= $session->getUserInfo("first_name",TRUE) ?>
+                                                <?= $session->getUserInfo("last_name",TRUE) ?>
                                             </h3><span class="fw-normal fs-0">
-                                                <?= $session->getUserInfoEncrypted("username") ?>
+                                                <?= $session->getUserInfo("username",TRUE) ?>
                                             </span>
                                         </div>
                                         <div class="d-flex d-xl-block d-xxl-flex align-items-center">
                                             <div class="d-flex mb-xl-2 mb-xxl-0"><span
                                                     class="fa-solid fa-user-check fs--2 me-2 me-lg-1 me-xl-2"></span>
                                                 <h6 class="d-inline-block mb-0">
-                                                    <?= $session->getUserInfo('coins') ?><span
+                                                    <?= $session->getUserInfo('coins',TRUE) ?><span
                                                         class="fw-semi-bold ms-1 me-4">
                                                         <?= $lang['balance'] ?>
                                                     </span>
@@ -153,8 +153,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 <div class="form-floating">
                                                     <input class="form-control form-icon-input" required
                                                         name="first_name" type="text"
-                                                        value="<?= $session->getUserInfoEncrypted("first_name") ?>"
-                                                        placeholder="<?= $session->getUserInfoEncrypted("first_name") ?>" />
+                                                        value="<?= $session->getUserInfo("first_name",TRUE) ?>"
+                                                        placeholder="<?= $session->getUserInfo("first_name",TRUE) ?>" />
                                                     <label class="text-700 form-icon-label" for="firstName">
                                                         <?= strtoupper($lang['first_name']) ?>
                                                     </label>
@@ -167,8 +167,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 <div class="form-floating">
                                                     <input class="form-control form-icon-input" type="text" required
                                                         name="last_name"
-                                                        value="<?= $session->getUserInfoEncrypted("last_name") ?>"
-                                                        placeholder="<?= $session->getUserInfoEncrypted("last_name") ?>" />
+                                                        value="<?= $session->getUserInfo("last_name",TRUE) ?>"
+                                                        placeholder="<?= $session->getUserInfo("last_name",TRUE) ?>" />
                                                     <label class="text-700 form-icon-label" for="lastName">
                                                         <?= strtoupper($lang['last_name']) ?>
                                                     </label>
@@ -181,8 +181,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 <div class="form-floating">
                                                     <input class="form-control form-icon-input" required name="email"
                                                         type="email"
-                                                        placeholder="<?= $session->getUserInfoEncrypted("email") ?>"
-                                                        value="<?= $session->getUserInfoEncrypted("email") ?>" />
+                                                        placeholder="<?= $session->getUserInfo("email",TRUE) ?>"
+                                                        value="<?= $session->getUserInfo("email",TRUE) ?>" />
                                                     <label class="text-700 form-icon-label" for="emailSocial">
                                                         <?= strtoupper($lang['email']) ?>
                                                     </label>
@@ -197,8 +197,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                         type="text"
                                                         readonly
                                                         disabled
-                                                        placeholder="<?= $session->getUserInfoEncrypted("user_id") ?>"
-                                                        value="<?= $session->getUserInfoEncrypted("user_id") ?>" />
+                                                        placeholder="<?= $session->getUserInfo("user_id",TRUE) ?>"
+                                                        value="<?= $session->getUserInfo("user_id",TRUE) ?>" />
                                                     <label class="text-700 form-icon-label" for="id">
                                                         <?= strtoupper($lang['account_id']) ?>
                                                     </label>
@@ -213,8 +213,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                         type="text"
                                                         readonly
                                                         disabled
-                                                        placeholder="<?= $session->getUserInfo("token") ?>"
-                                                        value="<?= $session->getUserInfo("token") ?>" />
+                                                        placeholder="<?= $session->getUserInfo("token",FALSE) ?>"
+                                                        value="<?= $session->getUserInfo("token",FALSE) ?>" />
                                                     <label class="text-700 form-icon-label" for="token">
                                                         <?= strtoupper($lang['account_token']) ?>
                                                     </label>

@@ -85,7 +85,13 @@ $router = new \Router\Router();
 $routesDirectory = __DIR__ . '/../routes/';
 $phpFiles = glob($routesDirectory . '*.php');
 foreach ($phpFiles as $phpFile) {
-    include $phpFile;
+    try {
+        include $phpFile;
+    } catch (Exception $ex) {
+        App::Crash("Failed to start app: " . $e->getMessage());
+        die();
+    }
+    
 }
 
 $router->add("/(.*)", function () {
@@ -95,7 +101,7 @@ $router->add("/(.*)", function () {
 try {
     $router->route();
 } catch (Exception $e) {
-    App::Crash("Failed to start the app route system: " . $e->getMessage());
+    App::Crash("Failed to start app: " . $e->getMessage());
     die();
 }
 ?>

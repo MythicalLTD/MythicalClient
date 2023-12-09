@@ -29,7 +29,7 @@
 		"prefix": "S_GetUserInfoDecrypt",
 		"scope": "php",
 		"body": [
-			"\\$session->getUserInfoEncrypted(\"$1\")"
+			"\\$session->getUserInfo(\"$1\", TRUE)"
 		],
 		"description": "Get a user value from the database and decrypt it if it was encrypted!"
 	},
@@ -37,7 +37,7 @@
 		"prefix": "S_GetUserInfo",
 		"scope": "php",
 		"body": [
-			"\\$session->getUserInfo(\"$1\")"
+			"\\$session->getUserInfo(\"$1\", FALSE)"
 		],
 		"description": "Get the user info from the database!"
 	},

@@ -184,7 +184,7 @@ use MythicalClient\Handlers\ConfigHandler;
                 data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar avatar-l ">
                     <img class="rounded-circle "
-                        src="<?= $session->getUserInfoEncrypted("avatar") ?>"
+                        src="<?= $session->getUserInfo("avatar",TRUE) ?>"
                         alt="" />
                 </div>
             </a>
@@ -195,15 +195,15 @@ use MythicalClient\Handlers\ConfigHandler;
                         <div class="text-center pt-4 pb-3">
                             <div class="avatar avatar-xl ">
                                 <img class="rounded-circle "
-                                    src="<?= $session->getUserInfoEncrypted("avatar") ?>"
+                                    src="<?= $session->getUserInfo("avatar", TRUE) ?>"
                                     alt="" />
                             </div>
                             <h5 class="mt-2 text-black">
-                                <?= $session->getUserInfoEncrypted("username") ?>
+                                <?= $session->getUserInfo("username", TRUE) ?>
                             </h5>
                             <h6 class="mt-2 text-black">
-                                <?= $session->getUserInfoEncrypted("first_name") ?>,
-                                <?= $session->getUserInfoEncrypted("last_name") ?>
+                                <?= $session->getUserInfo("first_name", TRUE) ?>,
+                                <?= $session->getUserInfo("last_name", TRUE) ?>
                             </h6>
                         </div>
                     </div>

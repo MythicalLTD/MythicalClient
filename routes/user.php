@@ -10,4 +10,9 @@ $router->add('/account/reset/key', function () {
 $router->add('/account/activity', function () {
     require("../views/account/activity.php");
 });
+
+$router->add('/profile/(.*)', function ($account_id) {
+    require("../views/account/profile.php");
+});
+
 ?>
