@@ -1,6 +1,6 @@
 # MythicalClient (SOON)
 
-MythicalClient is the next-generation standalone dashboard.
+MythicalClient is the next-generation standalone client area.
 
 ## Support
 
@@ -9,7 +9,7 @@ For support, discord server: [discord.gg/freehost](https://discord.gg/3FWyugpznc
 
 ## Optimizations
 
-MythicalDash is one of the fastest standalone dashboards out there. It has lightning-fast loading speeds! 
+MythicalClient is one of the fastest standalone dashboards out there. It has lightning-fast loading speeds! 
 
 ## Roadmap
 

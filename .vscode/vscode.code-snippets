@@ -61,7 +61,7 @@
 		"prefix": "S_SQLI",
 		"scope": "php",
 		"body": [
-			"\\$$1 = mysqli_real_escape_string(\\$conn, $2);"
+			"mysqli_real_escape_string(\\$conn, $2);"
 		],
 		"description": "Make a string that will be SQLI protected."
 	},

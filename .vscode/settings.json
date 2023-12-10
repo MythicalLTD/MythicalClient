@@ -1,0 +1,25 @@
+{
+    "cSpell.words": [
+        "anotherdomain",
+        "autoloader",
+        "bcmath",
+        "certbot",
+        "certonly",
+        "CHACHA",
+        "chrony",
+        "dearmor",
+        "fastcgi",
+        "filesize",
+        "fullchain",
+        "keyrings",
+        "letsencrypt",
+        "mbstring",
+        "mythicalclient",
+        "nosniff",
+        "privkey",
+        "sendfile",
+        "sury",
+        "webhosting",
+        "webserver"
+    ]
+}
