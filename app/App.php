@@ -2,6 +2,8 @@
 namespace MythicalClient;
 
 use MythicalClient\Handlers\ConfigHandler;
+use RobThree\Auth\TwoFactorAuth;
+use RobThree\Auth\TwoFactorAuthException;
 
 class App
 {
@@ -10,7 +12,7 @@ class App
     /**
      * Checks if the app is running on https!
      */
-    public static function isHTTPS() : bool
+    public static function isHTTPS(): bool
     {
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
             return true;
@@ -24,14 +26,14 @@ class App
      * 
      * @return string
      */
-    public static function getUrl() : string 
+    public static function getUrl(): string
     {
         $prot = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
         $svhost = $_SERVER['HTTP_HOST'];
         $appURL = $prot . '://' . $svhost;
         return $appURL;
     }
-
+    
     /**
      * Get the langauge into a php value
      * 
@@ -59,7 +61,7 @@ class App
      * @param string $errorMessage The message!
      * 
      */
-    private static function handleLanguageError(string $errorMessage) : void
+    private static function handleLanguageError(string $errorMessage): void
     {
         App::Crash($errorMessage);
         die();
@@ -70,7 +72,7 @@ class App
      * @param string $message The reason the app shall crash.
      * 
      */
-    public static function Crash(string $message) : void
+    public static function Crash(string $message): void
     {
         ob_start();
         ?>
@@ -274,22 +276,22 @@ class App
                         </p>
                         <div class="code-box" data-simplebar>
                             <code class="cline">
-                                            <?php
-                                            if (isset($message)) {
-                                                http_response_code(500);
-                                                $error = htmlspecialchars($message);
-                                                $errorLines = explode(PHP_EOL, $error);
-                                                foreach ($errorLines as $line) {
-                                                    $trimmedLine = ltrim($line);
-                                                    if (!empty($trimmedLine)) {
-                                                        echo $trimmedLine . PHP_EOL;
+                                                    <?php
+                                                    if (isset($message)) {
+                                                        http_response_code(500);
+                                                        $error = htmlspecialchars($message);
+                                                        $errorLines = explode(PHP_EOL, $error);
+                                                        foreach ($errorLines as $line) {
+                                                            $trimmedLine = ltrim($line);
+                                                            if (!empty($trimmedLine)) {
+                                                                echo $trimmedLine . PHP_EOL;
+                                                            }
+                                                        }
+                                                    } else {
+                                                        echo 'No error';
                                                     }
-                                                }
-                                            } else {
-                                                echo 'No error';
-                                            }
-                                            ?>
-                                        </code>
+                                                    ?>
+                                                </code>
                         </div>
                         <p class="error-text">
                             We apologize for the inconvenience. Please report this to the site administrator.

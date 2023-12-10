@@ -16,7 +16,7 @@ class SessionManager
     /**
      * Check if user is logged in
      */
-    public function authenticateUser() : void 
+    public function authenticateUser(): void
     {
         if (isset($_COOKIE['token'])) {
             $session_id = mysqli_real_escape_string($this->dbConnection, $_COOKIE['token']);
@@ -42,7 +42,7 @@ class SessionManager
      * 
      * @return string|null The info or null
      */
-    public function getUserInfo(string $info, bool $encrypted) : string
+    public function getUserInfo(string $info, bool $encrypted): string|null
     {
         $this->authenticateUser();
         $session_id = mysqli_real_escape_string($this->dbConnection, $_COOKIE["token"]);
@@ -53,17 +53,17 @@ class SessionManager
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
             if ($encrypted == false) {
-                return $row[$info];   
+                return $row[$info];
             } else {
-                return EncryptionHandler::decrypt($row[$info],ConfigHandler::get("app","key"));
+                return EncryptionHandler::decrypt($row[$info], ConfigHandler::get("app", "key"));
             }
         } else {
-            return null; 
+            return null;
         }
     }
 
     /**
-     * Get user info if it is not encrypted
+     * Get user info using the user id
      * 
      * @param string $user_id The user id (NOT Encrypted)
      * @param string $info The info you want to get
@@ -71,14 +71,14 @@ class SessionManager
      * 
      * @return string|null The info or null
      */
-    public function getUserInfoID(string $user_id, string $info, bool $encrypted) : string
+    public function getUserInfoID(string $user_id, string $info, bool $encrypted): string|null
     {
         //Check if the user exists first!
         if (!$this->doesUserExist($user_id)) {
             return null;
         }
 
-        $session_id = EncryptionHandler::encrypt(mysqli_real_escape_string($this->dbConnection, $user_id),ConfigHandler::get("app","key"));
+        $session_id = EncryptionHandler::encrypt(mysqli_real_escape_string($this->dbConnection, $user_id), ConfigHandler::get("app", "key"));
         $safeInfo = $this->dbConnection->real_escape_string($info);
         $query = "SELECT `$safeInfo` FROM users WHERE user_id='$session_id' LIMIT 1";
         $result = $this->dbConnection->query($query);
@@ -87,10 +87,10 @@ class SessionManager
             if ($encrypted == false) {
                 return $row[$info];
             } else {
-                return EncryptionHandler::decrypt($row[$info],ConfigHandler::get("app","key"));
+                return EncryptionHandler::decrypt($row[$info], ConfigHandler::get("app", "key"));
             }
         } else {
-            return null; 
+            return null;
         }
     }
 
@@ -98,7 +98,7 @@ class SessionManager
      * If user is not logged in it will reddirect them to login! 
      * This code also saves the url where the user is. 
      */
-    private function redirectToLogin(string $fullUrl) : void
+    private function redirectToLogin(string $fullUrl): void
     {
         $this->deleteCookies();
         header('location: /auth/login?r=' . $fullUrl);
@@ -108,7 +108,7 @@ class SessionManager
      * This will delete all user cookies to ensure that he will be 
      * logged out if this account
      */
-    private function deleteCookies() : void
+    private function deleteCookies(): void
     {
         if (isset($_SERVER['HTTP_COOKIE'])) {
             $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
@@ -126,7 +126,7 @@ class SessionManager
      * 
      * @return string|null The ip of the user
      */
-    public function getIP() : string
+    public function getIP(): string|null
     {
         if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
             $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
@@ -149,9 +149,9 @@ class SessionManager
     /**
      * Get the url where the user is 
      * 
-     * @return string|null The url
+     * @return string The url
      */
-    private function getFullUrl() : string
+    private function getFullUrl(): string
     {
         $fullUrl = "http";
         if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
@@ -162,24 +162,56 @@ class SessionManager
     }
 
     /**
-     * Update a row from the user table
+     * Update a row from the user table using a id
      * 
-     * @param string $user_token The user token
+     * @param string $user_id The user id (Encrypted)
      * @param string $row The row you want to update
      * @param string $value The value that you want to put inside the row!
      * @param bool $encrypt If the value shall be encrypted! 
      * 
      * @return bool True if the update was successful, false otherwise
      */
-    public function updateRow(string $user_token, string $row, string $value, bool $encrypt) : bool
+    public function updateRowID(string $user_id, string $row, string $value, bool $encrypt): bool
     {
         $safe_row = mysqli_real_escape_string($this->dbConnection, $row);
         if ($encrypt == true) {
-            $safe_value = EncryptionHandler::encrypt(mysqli_real_escape_string($this->dbConnection, $value),ConfigHandler::get("app","key"));
+            $safe_value = EncryptionHandler::encrypt(mysqli_real_escape_string($this->dbConnection, $value), ConfigHandler::get("app", "key"));
         } else {
             $safe_value = mysqli_real_escape_string($this->dbConnection, $value);
         }
-        $safe_token = mysqli_real_escape_string($this->dbConnection, $user_token);
+        $safe_token = mysqli_real_escape_string($this->dbConnection, $user_id);
+
+        $query = "UPDATE `users` SET `$safe_row` = ? WHERE `user_id` = ?";
+
+        $stmt = mysqli_prepare($this->dbConnection, $query);
+
+        mysqli_stmt_bind_param($stmt, 'ss', $safe_value, $safe_token);
+
+        return $stmt->execute();
+    }
+
+
+    /**
+     * Update a row from the user table
+     * 
+     * @param string $row The row you want to update
+     * @param string $value The value that you want to put inside the row!
+     * @param bool $encrypt If the value shall be encrypted! 
+     * 
+     * @return bool True if the update was successful, false otherwise
+     */
+    public function updateRow(string $row, string $value, bool $encrypt): bool
+    {
+        $this->authenticateUser();
+        $session_id = mysqli_real_escape_string($this->dbConnection, $_COOKIE["token"]);
+
+        $safe_row = mysqli_real_escape_string($this->dbConnection, $row);
+        if ($encrypt == true) {
+            $safe_value = EncryptionHandler::encrypt(mysqli_real_escape_string($this->dbConnection, $value), ConfigHandler::get("app", "key"));
+        } else {
+            $safe_value = mysqli_real_escape_string($this->dbConnection, $value);
+        }
+        $safe_token = mysqli_real_escape_string($this->dbConnection, $session_id);
 
         $query = "UPDATE `users` SET `$safe_row` = ? WHERE `token` = ?";
 
@@ -193,7 +225,6 @@ class SessionManager
     /**
      * Update account settings inside the database 
      * 
-     * @param string $user_token The token
      * @param string $first_name The first name
      * @param string $last_name The last name 
      * @param string $email The email
@@ -201,8 +232,11 @@ class SessionManager
      * 
      * @return bool The stauts
      */
-    public function updateAccount(string $user_token, string $first_name, string $last_name, string|null $email, string|null $password) : bool
+    public function updateAccount(string $first_name, string $last_name, string|null $email, string|null $password): bool
     {
+        $this->authenticateUser();
+        $session_id = mysqli_real_escape_string($this->dbConnection, $_COOKIE["token"]);
+
         $query = "UPDATE `users` SET";
 
         $params = array();
@@ -235,7 +269,7 @@ class SessionManager
         $query = rtrim($query, ',');
 
         $query .= " WHERE token = ?";
-        $params[] = mysqli_real_escape_string($this->dbConnection, $user_token);
+        $params[] = mysqli_real_escape_string($this->dbConnection, $session_id);
         ;
         $types .= "s";
 
@@ -255,7 +289,7 @@ class SessionManager
      * 
      * @return bool True if the user exists, false otherwise
      */
-    public function doesUserExist($uid) : bool
+    public function doesUserExist($uid): bool
     {
         $e_uid = EncryptionHandler::encrypt($uid, ConfigHandler::get("app", "key"));
 
@@ -282,7 +316,7 @@ class SessionManager
      * @return string|null The new key or null if something failed
      */
 
-    public function createKey($username, $email) : string 
+    public function createKey($username, $email): string
     {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
         $charArrayLength = strlen($chars) - 1;
@@ -310,7 +344,7 @@ class SessionManager
      * 
      * @return bool The status
      */
-    public function resetKey($user_token) : bool
+    public function resetKey($user_token): bool
     {
         // Generate a new key
         $newKeyGen = $this->createKey("resetmykey", "resetMyKey@infoKey.net");
@@ -348,7 +382,7 @@ class SessionManager
      * 
      * @return bool If this fails or not
      */
-    public function createUser(string $username, string $email, string $first_name, string $last_name, string $password, string $avatar, string $uid, string $token, string $ip, string $verification_code) : bool
+    public function createUser(string $username, string $email, string $first_name, string $last_name, string $password, string $avatar, string $uid, string $token, string $ip, string $verification_code): bool
     {
         $query = "INSERT INTO users (username, email, first_name, last_name, password, avatar, user_id, token, first_ip, last_ip, verification_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->dbConnection->prepare($query);

@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     $email = null;
                 }
-                $account = $session->updateAccount($_COOKIE['token'], $first_name, $last_name, $email, $password);
+                $account = $session->updateAccount($first_name, $last_name, $email, $password);
                 if ($account) {
                     header('location: /account?s=db_success');
                     die();

@@ -26,7 +26,7 @@ try {
 }
 
 try {
-    $router->add('/test', function () {
+    $router->add('/modules', function () {
         require("../views/test.php");
     });
 } catch (Exception $ex) {
