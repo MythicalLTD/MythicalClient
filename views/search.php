@@ -47,8 +47,12 @@ $conn->close();
             <div class="col-xl">
                 <div class="card h-100">
                     <div class="card-body">
-                        <h3>Products</h3>
-                        <p class="text-700">List of the prodcuts you own!</p>
+                        <h3>
+                            <?= $lang['search_title'] ?>
+                        </h3>
+                        <p class="text-700">
+                            <?= $lang['search_subtitle'] ?>
+                        </p>
                         <div class="echart-revenue-target-conversion"
                             style="min-height: 230px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;"
                             _echarts_instance_="ec_1701442516973">
@@ -64,21 +68,31 @@ $conn->close();
                                     <table class="table table-striped table-sm fs--1 mb-0">
                                         <thead>
                                             <tr>
-                                                <th class="sort border-top ps-3" data-sort="avatar">Avatar</th>
-                                                <th class="sort border-top ps-3" data-sort="username">Username</th>
-                                                <th class="sort border-top" data-sort="role">Role</th>
-                                                <th class="sort border-top" data-sort="registered">Registered</th>
+                                                <th class="sort border-top ps-3" data-sort="username">
+                                                    <?= $lang['username'] ?>
+                                                </th>
+                                                <th class="sort border-top" data-sort="username">
+                                                    <?= $lang['user_id'] ?>
+                                                </th>
+                                                <th class="sort border-top" data-sort="role">
+                                                    <?= $lang['role'] ?>
+                                                </th>
+                                                <th class="sort border-top" data-sort="registered">
+                                                    <?= $lang['registered'] ?>
+                                                </th>
                                                 <th class="sort text-end align-middle pe-0 border-top" scope="col">
-                                                    ACTION</th>
+                                                    <?= $lang['action'] ?>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody class="list">
                                             <?php foreach ($users as $user): ?>
                                                 <tr>
-                                                    <td class="align-middle ps-3 avatar"><img src="<?= EncryptionHandler::decrypt($user['avatar'],ConfigHandler::get("app","key")) ?>"
-                                                            alt="User Avatar" class="rounded-circle avatar-image"></td>
-                                                    <td class="align-middle username">
-                                                        <?= EncryptionHandler::decrypt($user['username'],ConfigHandler::get("app","key")) ?>
+                                                    <td class="align-middle username ps-3">
+                                                        <?= EncryptionHandler::decrypt($user['username'], ConfigHandler::get("app", "key")) ?>
+                                                    </td>
+                                                    <td class="align-middle user_id">
+                                                        <code><?= EncryptionHandler::decrypt($user['user_id'], ConfigHandler::get("app", "key")) ?></code>
                                                     </td>
                                                     <td class="align-middle role">
                                                         <?= $user['role'] ?>
@@ -87,7 +101,8 @@ $conn->close();
                                                         <?= $user['registred'] ?>
                                                     </td>
                                                     <td class="align-middle white-space-nowrap text-end pe-0">
-                                                        <!-- Your action buttons or dropdown here -->
+                                                        <a class="btn btn-primary btn-sm"
+                                                            href="/profile/<?= EncryptionHandler::decrypt($user['user_id'], ConfigHandler::get("app", "key")) ?>">Profile</a>
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>
@@ -116,7 +131,7 @@ $conn->close();
     </main>
     <?php require(__DIR__ . '/requirements/footer.php'); ?>
     <script>var options = {
-            valueNames: ['name', 'cost', 'status']
+            valueNames: ['username', 'user_id', 'role', 'registered']
         };
 
         var userList = new List('users', options);

@@ -48,7 +48,7 @@ use MythicalClient\Handlers\ConfigHandler;
                     data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon"
                         data-feather="sun"></span></label></div>
         </li>
-        <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#searchBoxModal"><span
+        <li class="nav-item"><a class="nav-link" href="/search"><span
                     data-feather="search" style="height:19px;width:19px;margin-bottom: 2px;"></span></a></li>
         <li class="nav-item dropdown">
             <a class="nav-link" href="#" style="min-width: 2.5rem" role="button" data-bs-toggle="dropdown"

@@ -14,6 +14,8 @@ return [
     "privacy" => "Privacy Policy",
     "sign_out" => "Sign out",
     "and" => "and",
+    "registered" => "Registered",
+    "role" => "Role",
     "login" => "Login",
     "register" => "Register",
     "balance" => "Coins",
@@ -53,6 +55,7 @@ return [
     "reset" => "Reset",
     "activity" => "Activity",
     "user_activity" => "User Activity",
+    "user_id" => "User Id",
     "user_activity_info" => "List of activities for",
     //Registration Page
     "register_tos_1" => "I agree with the ",
@@ -94,6 +97,9 @@ return [
     "account_id" => "Account id",
     //Profile page:
     "send_coins" => "Send coins",
-    "manage_user" => "Manage user"
+    "manage_user" => "Manage user",
+    //Search page
+    "search_title" => "User lookup",
+    "search_subtitle" => "Search for an user in our database!",
 ]
 ?>
