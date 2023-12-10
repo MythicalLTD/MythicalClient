@@ -2,10 +2,10 @@
 require(__DIR__ . '/../requirements/page.php');
 
 use MythicalClient\Handlers\ConfigHandler;
-use MythicalClient\Handlers\DatabaseConnectionHandler;
+use MythicalClient\Handlers\DatabaseHandler;
 use MythicalClient\Handlers\EncryptionHandler;
 
-$conn = DatabaseConnectionHandler::getConnection();
+$conn = DatabaseHandler::getConnection();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['submit']) && !$_POST['submit'] == null) {

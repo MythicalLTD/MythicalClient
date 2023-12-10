@@ -1,6 +1,6 @@
 <?php
 use MythicalClient\App;
-use MythicalClient\Handlers\DatabaseConnectionHandler;
+use MythicalClient\Handlers\DatabaseHandler;
 use MythicalClient\Handlers\ConfigHandler;
 
 if (isset($_COOKIE['token']) && !$_COOKIE['token'] == null) {
@@ -8,7 +8,7 @@ if (isset($_COOKIE['token']) && !$_COOKIE['token'] == null) {
     die();
 }
 $lang = App::getLang();
-$conn = DatabaseConnectionHandler::getConnection();
+$conn = DatabaseHandler::getConnection();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['code']) && !$_GET['code'] == "") {

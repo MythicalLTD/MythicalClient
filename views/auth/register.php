@@ -1,6 +1,6 @@
 <?php
 use MythicalClient\App;
-use MythicalClient\Handlers\DatabaseConnectionHandler;
+use MythicalClient\Handlers\DatabaseHandler;
 use MythicalClient\Handlers\EmailHandler;
 use MythicalClient\Handlers\EncryptionHandler;
 use MythicalClient\Managers\SessionManager;
@@ -14,7 +14,7 @@ if (isset($_COOKIE['token']) && !$_COOKIE['token'] == null) {
 }
 
 $lang = App::getLang();
-$conn = DatabaseConnectionHandler::getConnection();
+$conn = DatabaseHandler::getConnection();
 $session = new SessionManager();
 
 session_start();

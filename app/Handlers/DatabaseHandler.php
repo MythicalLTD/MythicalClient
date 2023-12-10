@@ -5,7 +5,7 @@ use mysqli;
 use MythicalClient\Handlers\ConfigHandler;
 use MythicalClient\App;
 
-class DatabaseConnectionHandler
+class DatabaseHandler
 {
     /**
      * This just gets the database connection!

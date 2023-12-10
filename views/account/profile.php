@@ -2,9 +2,9 @@
 require(__DIR__ . '/../requirements/page.php');
 
 use MythicalClient\Handlers\ConfigHandler;
-use MythicalClient\Handlers\DatabaseConnectionHandler;
+use MythicalClient\Handlers\DatabaseHandler;
 
-$conn = DatabaseConnectionHandler::getConnection();
+$conn = DatabaseHandler::getConnection();
 
 if (isset($account_id) && !$account_id == null) {
     $safe_account_id = mysqli_real_escape_string($conn, $account_id);

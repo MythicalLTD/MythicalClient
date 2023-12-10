@@ -1,11 +1,11 @@
 <?php
-use MythicalClient\Handlers\DatabaseConnectionHandler;
+use MythicalClient\Handlers\DatabaseHandler;
 if (isset($_COOKIE['token']) && !$_COOKIE['token'] == null) {
     header('location: /dashboard');
     die();
 }
 
-$conn = DatabaseConnectionHandler::getConnection();
+$conn = DatabaseHandler::getConnection();
 
 if (isset($_GET['code']) && !$_GET['code'] == null) {
     $code = mysqli_real_escape_string($conn, $_GET['code']);

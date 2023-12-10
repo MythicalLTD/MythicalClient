@@ -1,9 +1,9 @@
 <?php
 use MythicalClient\Handlers\ConfigHandler;
-use MythicalClient\Handlers\DatabaseConnectionHandler;
+use MythicalClient\Handlers\DatabaseHandler;
 use MythicalClient\Handlers\EncryptionHandler;
 
-$conn = DatabaseConnectionHandler::getConnection();
+$conn = DatabaseHandler::getConnection();
 require(__DIR__ . '/requirements/page.php');
 
 $sql = "SELECT * FROM users";

@@ -2,9 +2,6 @@
 namespace MythicalClient;
 
 use MythicalClient\Handlers\ConfigHandler;
-use RobThree\Auth\TwoFactorAuth;
-use RobThree\Auth\TwoFactorAuthException;
-
 class App
 {
 

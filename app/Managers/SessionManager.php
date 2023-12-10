@@ -2,7 +2,7 @@
 
 namespace MythicalClient\Managers;
 
-use MythicalClient\Handlers\DatabaseConnectionHandler;
+use MythicalClient\Handlers\DatabaseHandler;
 use MythicalClient\Handlers\EncryptionHandler;
 use MythicalClient\Handlers\ConfigHandler;
 
@@ -11,7 +11,7 @@ class SessionManager
     private $dbConnection;
     public function __construct()
     {
-        $this->dbConnection = DatabaseConnectionHandler::getConnection();
+        $this->dbConnection = DatabaseHandler::getConnection();
     }
     /**
      * Check if user is logged in
