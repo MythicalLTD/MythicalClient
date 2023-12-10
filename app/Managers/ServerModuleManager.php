@@ -23,7 +23,7 @@ class ServerModuleManager
     /**
      * Check if the cache file exists and create it if not.
      */
-    private function createCacheFileIfNeeded()
+    private function createCacheFileIfNeeded() : void 
     {
         $cacheDirectory = dirname($this->cachePath);
 
@@ -41,7 +41,7 @@ class ServerModuleManager
     /**
      * Load module cache from JSON file.
      */
-    private function loadModuleCache()
+    private function loadModuleCache() : void 
     {
         if (file_exists($this->cachePath)) {
             $cacheContent = file_get_contents($this->cachePath);
@@ -60,7 +60,7 @@ class ServerModuleManager
     /**
      * Save module cache to JSON file.
      */
-    private function saveModuleCache()
+    private function saveModuleCache() : void 
     {
         $cacheData = [
             'enabled' => $this->enabledModules,
@@ -73,7 +73,7 @@ class ServerModuleManager
     /**
      * Load all modules from the modules directory.
      */
-    private function loadAllModules()
+    private function loadAllModules() : void 
     {
         $modulesPath = __DIR__ . "/../../modules/servers/";
 
@@ -95,9 +95,10 @@ class ServerModuleManager
      * Load a module by name.
      *
      * @param string $moduleName
+     * 
      * @return mixed The loaded module or an error string.
      */
-    public function loadModule($moduleName)
+    public function loadModule(string $moduleName) : mixed 
     {
         $modulePath = __DIR__ . "/../../modules/servers/{$moduleName}/init.php";
 
@@ -124,7 +125,7 @@ class ServerModuleManager
      *
      * @param string $moduleName
      */
-    public function enableModule($moduleName)
+    public function enableModule(string $moduleName) : void
     {
         if (!in_array($moduleName, $this->enabledModules)) {
             // Remove from disabledModules if it exists there
@@ -142,7 +143,7 @@ class ServerModuleManager
      *
      * @param string $moduleName
      */
-    public function disableModule($moduleName)
+    public function disableModule(string $moduleName) : void 
     {
         if (($key = array_search($moduleName, $this->enabledModules)) !== false) {
             unset($this->enabledModules[$key]);
@@ -156,7 +157,7 @@ class ServerModuleManager
      *
      * @return array
      */
-    public function getAllModulesInfo()
+    public function getAllModulesInfo() : array 
     {
         $modulesInfo = [];
 

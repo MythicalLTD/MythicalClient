@@ -12,10 +12,20 @@ return [
     "password" => "Password",
     "terms" => "Terms and Conditions",
     "privacy" => "Privacy Policy",
+    "sign_out" => "Sign out",
     "and" => "and",
+    "registered" => "Registered",
+    "role" => "Role",
     "login" => "Login",
     "register" => "Register",
     "balance" => "Coins",
+    "joinned" => "Joinned",
+    "description" => "Description",
+    "time" => "Time",
+    "ip_address" => "IP Address",
+    "search" => "Search",
+    "action" => "Action",
+    "settings" => "Settings",
     "authentication" => "Authentication",
     "invalid_csrf_token" => "Invalid CSRF token.",
     "empty_form" => "Please fill in all the required fields.",
@@ -40,9 +50,12 @@ return [
     "old_password" => "Old password",
     "change_password" => "Change Password",
     "cancel_changes" => "Cancel Changes",
+    "profile" => "Profile",
     "save_information" => "Save Information",
     "reset" => "Reset",
+    "activity" => "Activity",
     "user_activity" => "User Activity",
+    "user_id" => "User Id",
     "user_activity_info" => "List of activities for",
     //Registration Page
     "register_tos_1" => "I agree with the ",
@@ -81,6 +94,12 @@ return [
     "account_delete_info" => "This option will remove your account from our database and delete all your products and services!",
     "account_delete_button" => "Delete account",
     "account_token" => "Account token",
-    "account_id" => "Account id"
+    "account_id" => "Account id",
+    //Profile page:
+    "send_coins" => "Send coins",
+    "manage_user" => "Manage user",
+    //Search page
+    "search_title" => "User lookup",
+    "search_subtitle" => "Search for an user in our database!",
 ]
 ?>

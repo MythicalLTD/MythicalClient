@@ -18,12 +18,12 @@ class ConfigHandler
     /**
      * Get configuration values.
      *
-     * @param string|null $section The section name.
-     * @param string|null $key     The key within the section.
+     * @param string $section The section name.
+     * @param string $key     The key within the section.
      *
-     * @return mixed|null The entire configuration, a specific section, or a specific value.
+     * @return string|array|null The entire configuration, a specific section, or a specific value.
      */
-    public static function get($section = null, $key = null)
+    public static function get(string $section = null, string $key = null) : string|array|null
     {
         $config = parse_ini_file(self::$configFile, true);
 
@@ -45,7 +45,7 @@ class ConfigHandler
      * @param string $key     The key within the section.
      * @param mixed  $value   The value to set.
      */
-    public static function set($section, $key, $value)
+    public static function set(string $section, string $key, string $value) : void
     {
         $config = self::get();
 
@@ -67,7 +67,7 @@ class ConfigHandler
      *
      * @return bool True if the update is successful, false if the key doesn't exist.
      */
-    public static function update($section, $key, $value)
+    public static function update(string $section, string $key, string $value) : bool
     {
         $config = self::get();
 
@@ -85,7 +85,7 @@ class ConfigHandler
      *
      * @param array $config The modified configuration array.
      */
-    public static function write($config)
+    public static function write(array|string $config) : void
     {
         $content = '';
 

@@ -10,7 +10,7 @@ class DatabaseConnectionHandler
     /**
      * This just gets the database connection!
      */
-    public static function getConnection()
+    public static function getConnection() : mysqli
     {
         $conn = new mysqli(
             ConfigHandler::get("database", "host"),

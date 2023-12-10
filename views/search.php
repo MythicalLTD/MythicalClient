@@ -1,8 +1,22 @@
 <?php
-require(__DIR__ . '/../requirements/page.php');
-
 use MythicalClient\Handlers\ConfigHandler;
-use MythicalCLient\Handlers\EncryptionHandler;
+use MythicalClient\Handlers\DatabaseConnectionHandler;
+use MythicalClient\Handlers\EncryptionHandler;
+
+$conn = DatabaseConnectionHandler::getConnection();
+require(__DIR__ . '/requirements/page.php');
+
+$sql = "SELECT * FROM users";
+$result = $conn->query($sql);
+
+
+if ($result->num_rows > 0) {
+    $users = $result->fetch_all(MYSQLI_ASSOC);
+} else {
+    $users = [];
+}
+
+$conn->close();
 
 ?>
 <!DOCTYPE html>
@@ -10,7 +24,7 @@ use MythicalCLient\Handlers\EncryptionHandler;
 
 <head>
     <?php
-    require(__DIR__ . '/../requirements/head.php');
+    require(__DIR__ . '/requirements/head.php');
     ?>
     <title>
         <?= ConfigHandler::get('app', 'name') ?>
@@ -24,30 +38,29 @@ use MythicalCLient\Handlers\EncryptionHandler;
     <!-- ===============================================-->
     <main class="main" id="top">
         <?php
-        include(__DIR__ . '/../components/navbar.php');
+        include(__DIR__ . "/components/navbar.php");
         ?>
         <div class="content">
             <?php
-            include(__DIR__ . '/../components/alerts.php');
+            include(__DIR__ . "/components/alerts.php");
             ?>
             <div class="col-xl">
                 <div class="card h-100">
                     <div class="card-body">
                         <h3>
-                            <?= $lang['user_activity'] ?>
+                            <?= $lang['search_title'] ?>
                         </h3>
                         <p class="text-700">
-                            <?= $lang['user_activity_info'] ?>
-                            <?= htmlspecialchars($session->getUserInfo("username", TRUE)) ?>
+                            <?= $lang['search_subtitle'] ?>
                         </p>
                         <div class="echart-revenue-target-conversion"
                             style="min-height: 230px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;"
                             _echarts_instance_="ec_1701442516973">
-                            <div id="activity_table">
+                            <div id="users">
                                 <div class="search-box mb-3 mx-auto">
                                     <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
                                         <input class="form-control search-input search form-control-sm" type="search"
-                                            placeholder="<?= $lang['search']?>" aria-label="<?= $lang['search']?>" />
+                                            placeholder="<?= $lang['search'] ?>" aria-label="<?= $lang['search'] ?>" />
                                         <span class="fas fa-search search-box-icon"></span>
                                     </form>
                                 </div>
@@ -58,47 +71,41 @@ use MythicalCLient\Handlers\EncryptionHandler;
                                                 <th class="sort border-top ps-3" data-sort="username">
                                                     <?= $lang['username'] ?>
                                                 </th>
-                                                <th class="sort border-top" data-sort="description">
-                                                    <?= $lang['description'] ?>
+                                                <th class="sort border-top" data-sort="username">
+                                                    <?= $lang['user_id'] ?>
                                                 </th>
-                                                <th class="sort border-top" data-sort="action">
+                                                <th class="sort border-top" data-sort="role">
+                                                    <?= $lang['role'] ?>
+                                                </th>
+                                                <th class="sort border-top" data-sort="registered">
+                                                    <?= $lang['registered'] ?>
+                                                </th>
+                                                <th class="sort text-end align-middle pe-0 border-top" scope="col">
                                                     <?= $lang['action'] ?>
-                                                </th>
-                                                <th class="sort border-top" data-sort="time">
-                                                    <?= $lang['time'] ?>
-                                                </th>
-                                                <th class="sort border-top" data-sort="ip_address">
-                                                    <?= $lang['ip_address'] ?>
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody class="list">
-                                            <?php
-                                            // Assuming $activityManager is an instance of your ActivityManager class
-                                            $activities = $ActivityManager->getActivities($session->getUserInfo("user_id", TRUE));
-
-                                            foreach ($activities as $activity) {
-                                                ?>
+                                            <?php foreach ($users as $user): ?>
                                                 <tr>
-                                                    <td class="align-middle ps-3 username">
-                                                        <?= htmlspecialchars($activity['username']) ?>
+                                                    <td class="align-middle username ps-3">
+                                                        <?= EncryptionHandler::decrypt($user['username'], ConfigHandler::get("app", "key")) ?>
                                                     </td>
-                                                    <td class="align-middle description">
-                                                        <?= htmlspecialchars($activity['description']) ?>
+                                                    <td class="align-middle user_id">
+                                                        <code><?= EncryptionHandler::decrypt($user['user_id'], ConfigHandler::get("app", "key")) ?></code>
                                                     </td>
-                                                    <td class="align-middle action">
-                                                        <?= htmlspecialchars($activity['action']) ?>
+                                                    <td class="align-middle role">
+                                                        <?= $user['role'] ?>
                                                     </td>
-                                                    <td class="align-middle time">
-                                                        <?= htmlspecialchars($activity['time']) ?>
+                                                    <td class="align-middle registred">
+                                                        <?= $user['registred'] ?>
                                                     </td>
-                                                    <td class="align-middle ip_address">
-                                                        <?= htmlspecialchars($activity['ip_address']) ?>
+                                                    <td class="align-middle white-space-nowrap text-end pe-0">
+                                                        <a class="btn btn-primary btn-sm"
+                                                            href="/profile/<?= EncryptionHandler::decrypt($user['user_id'], ConfigHandler::get("app", "key")) ?>">Profile</a>
                                                     </td>
                                                 </tr>
-                                                <?php
-                                            }
-                                            ?>
+                                            <?php endforeach; ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -116,17 +123,18 @@ use MythicalCLient\Handlers\EncryptionHandler;
                     </div>
                 </div>
             </div>
+
             <?php
-            include(__DIR__ . '/../components/footer.php');
+            include(__DIR__ . "/components/footer.php");
             ?>
         </div>
     </main>
-    <?php require(__DIR__ . '/../requirements/footer.php'); ?>
+    <?php require(__DIR__ . '/requirements/footer.php'); ?>
     <script>var options = {
-            valueNames: ['username', 'description', 'action', 'time', 'ip_address']
+            valueNames: ['username', 'user_id', 'role', 'registered']
         };
 
-        var activityList = new List('activity_table', options);
+        var userList = new List('users', options);
     </script>
 </body>
 

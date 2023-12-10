@@ -10,7 +10,7 @@ class App
     /**
      * Checks if the app is running on https!
      */
-    public static function isHTTPS()
+    public static function isHTTPS() : bool
     {
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
             return true;
@@ -24,7 +24,7 @@ class App
      * 
      * @return string
      */
-    public static function getUrl()
+    public static function getUrl() : string 
     {
         $prot = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
         $svhost = $_SERVER['HTTP_HOST'];
@@ -32,6 +32,11 @@ class App
         return $appURL;
     }
 
+    /**
+     * Get the langauge into a php value
+     * 
+     * @return mixed
+     */
     public static function getLang()
     {
         $langConfig = ConfigHandler::get("app", "lang");
@@ -48,8 +53,13 @@ class App
             }
         }
     }
-
-    private static function handleLanguageError($errorMessage)
+    /**
+     * Display a language error
+     * 
+     * @param string $errorMessage The message!
+     * 
+     */
+    private static function handleLanguageError(string $errorMessage) : void
     {
         App::Crash($errorMessage);
         die();
@@ -58,8 +68,9 @@ class App
      * Crash the app and display a custom error.
      *
      * @param string $message The reason the app shall crash.
+     * 
      */
-    public static function Crash($message)
+    public static function Crash(string $message) : void
     {
         ob_start();
         ?>
