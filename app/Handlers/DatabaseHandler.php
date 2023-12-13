@@ -158,10 +158,11 @@ class DatabaseHandler
      * @param string $table The database table
      * @param array $columns An array of column names to select
      * @param array $conditions An associative array of conditions (column => value)
+     * @param bool $encrypted If we shall decrypt this before we return
      * 
      * @return array|false An array of rows if the select was successful, false otherwise
      */
-    public static function select(string $table, array $columns = ['*'], array $conditions = [])
+    public static function select(string $table, array $columns = ['*'], array $conditions = [], bool $encrypted) : array|false 
     {
         $connection = self::getConnection();
 
@@ -189,7 +190,12 @@ class DatabaseHandler
         if ($result !== false) {
             $rows = $result->fetch_all(MYSQLI_ASSOC);
             $result->close();
-            return $rows;
+            if ($encrypted == TRUE) {
+                $data = EncryptionHandler::decrypt($rows,ConfigHandler::get("app","key"));
+                return $data;
+            } else {
+                return $rows;
+            }
         }
 
         return false;

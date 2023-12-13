@@ -3,7 +3,7 @@ composer.phar
 /logs/*.log
 config.ini
 /caches/*.json
-/MythicalClient/bin
-/MythicalClient/obj
+/cli/bin
+/cli/obj
 /logs/*.txt
 /public/assets/1209.mp4

@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
         "anotherdomain",
+        "autoload",
         "autoloader",
         "bcmath",
         "certbot",
@@ -12,13 +13,19 @@
         "filesize",
         "fullchain",
         "keyrings",
+        "Kutzu",
         "letsencrypt",
         "mbstring",
         "mythicalclient",
+        "mythicaldash",
+        "mythicalsystems",
+        "nayskutzu",
         "nosniff",
+        "phpmailer",
         "privkey",
         "sendfile",
         "sury",
+        "VARCHAR",
         "webhosting",
         "webserver"
     ]

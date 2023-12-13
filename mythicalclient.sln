@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MythicalClient", "MythicalClient\MythicalClient.csproj", "{481F0594-1267-4AB4-B662-DE693C79F64D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MythicalClient", "cli\MythicalClient.csproj", "{61A3C2F2-D5DB-44C3-A4AC-06F638C7F2C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{481F0594-1267-4AB4-B662-DE693C79F64D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{481F0594-1267-4AB4-B662-DE693C79F64D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{481F0594-1267-4AB4-B662-DE693C79F64D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{481F0594-1267-4AB4-B662-DE693C79F64D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61A3C2F2-D5DB-44C3-A4AC-06F638C7F2C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61A3C2F2-D5DB-44C3-A4AC-06F638C7F2C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61A3C2F2-D5DB-44C3-A4AC-06F638C7F2C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61A3C2F2-D5DB-44C3-A4AC-06F638C7F2C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1056EA6D-9FEB-4A0A-9067-4F4A4076E9F5}
+		SolutionGuid = {701AEC58-9F75-4B85-8392-D2683869E2EF}
 	EndGlobalSection
 EndGlobal

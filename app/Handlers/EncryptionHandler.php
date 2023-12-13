@@ -24,10 +24,12 @@ class EncryptionHandler
     /**
      * Encrypt the data 
      * 
-     * @param string $data Data to be encrypted
+     * @param string|array $data Data to be encrypted
      * @param string $encryptionKey The key to encrypt the data
+     * 
+     * @return string|array The encrypted data
      */
-    public static function encrypt(string $data, string $encryptionKey) : string
+    public static function encrypt(string|array $data, string $encryptionKey) : string|array
     {
         $encrypted = '';
         $keyLength = strlen($encryptionKey);
@@ -43,10 +45,12 @@ class EncryptionHandler
     /**
      * Decrypt the data 
      * 
-     * @param string $data Data to be decrypted
+     * @param string|array $data Data to be decrypted
      * @param string $encryptionKey The key to decrypt the data
+     * 
+     * @return string|array The decrypted data
      */
-    public static function decrypt(string $encryptedData, string $encryptionKey)
+    public static function decrypt(string|array $encryptedData, string $encryptionKey) : string|array
     {
         $encryptedData = base64_decode($encryptedData);
         $decrypted = '';

@@ -16,18 +16,18 @@ namespace MythicalClient.Managers.ArgumentManager
 
             switch (option)
             {
-                //case "-migrate":
-                //    try
-                //    {
-                //        MigrationHelper mg = new MigrationHelper();
-                //        mg.Now();
-                //        return true;
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        Program.logger.Log(LogType.Error, "Failed to migrate: " + ex.Message);
-                //    }
-                //    break;
+                case "-migrate":
+                    try
+                    {
+                        MigrationHelper mg = new MigrationHelper();
+                        mg.Now();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Program.logger.Log(LogType.Error, "Failed to migrate: " + ex.Message);
+                    }
+                    break;
                 //case "-environment:database":
                 //    try
                 //    {
