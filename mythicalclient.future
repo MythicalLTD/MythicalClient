@@ -1,5 +1,5 @@
-FutureIDEVersion = 2023.12.10#git/development
-MinimumFutureIDEVersion = 2023.12.10#git/development
+FutureIDEVersion = 2023.12.14#git/development
+MinimumFutureIDEVersion = 2023.12.14#git/development
 Project("{00000-00000-00000-00002}") = "MythicalClient", "/var/www/mythiaclclient/*", "{481F0594-1267-4AB4-B662-DE693C79F64D}"
 EndProject
 Global

@@ -1,4 +1,4 @@
-namespace MythicalClient.Managers.LoggerManager;
+namespace MythicalClient;
 
 public enum LogType
 {

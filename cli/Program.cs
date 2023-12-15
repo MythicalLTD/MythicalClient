@@ -1,11 +1,8 @@
-﻿using MythicalClient.Managers.LoggerManager;
-using MythicalClient.Managers.ArgumentManager;
-
-namespace MythicalClient;
+﻿namespace MythicalClient;
 
 public class Program
 {
-    public static string mcascii = @" 
+    public static string ascii = @" 
   __  __       _   _     _           _  _____ _ _            _   
  |  \/  |     | | | |   (_)         | |/ ____| (_)          | |  
  | \  / |_   _| |_| |__  _  ___ __ _| | |    | |_  ___ _ __ | |_ 
@@ -45,7 +42,7 @@ public class Program
         Console.Clear();
         Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
         Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        Console.WriteLine(mcascii);
+        Console.WriteLine(ascii);
         if (!OperatingSystem.IsLinux())
         {
             logger.Log(LogType.Error, "Sorry, but you have to be on Debian or Linux to use our daemon.");

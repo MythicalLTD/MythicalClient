@@ -160,9 +160,9 @@ class DatabaseHandler
      * @param array $conditions An associative array of conditions (column => value)
      * @param bool $encrypted If we shall decrypt this before we return
      * 
-     * @return array|false An array of rows if the select was successful, false otherwise
+     * @return array|bool An array of rows if the select was successful, false otherwise
      */
-    public static function select(string $table, array $columns = ['*'], array $conditions = [], bool $encrypted) : array|false 
+    public static function select(string $table, array $columns = ['*'], array $conditions = [], bool $encrypted) : array|bool 
     {
         $connection = self::getConnection();
 

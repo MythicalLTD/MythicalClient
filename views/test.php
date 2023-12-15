@@ -1,7 +1,7 @@
 <?php
+define("VIEW_LEVEL", 0);
+
 use MythicalClient\Managers\ServerModuleManager;
-
-
 
 $moduleManager = new ServerModuleManager();
 
@@ -26,7 +26,7 @@ if (isset($_POST['action']) && isset($_POST['moduleName'])) {
     $module = new $moduleName;
 
     //$result = $module->CreateUser('user@example.com', 'myUsername', 'myPassword');
-    echo $result;
+    //echo $result;
 }
 
 // Display information about all modules in an HTML table

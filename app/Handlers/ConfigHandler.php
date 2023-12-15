@@ -44,6 +44,8 @@ class ConfigHandler
      * @param string $section The section name.
      * @param string $key     The key within the section.
      * @param mixed  $value   The value to set.
+     * 
+     * @return void
      */
     public static function set(string $section, string $key, string $value) : void
     {
@@ -84,6 +86,8 @@ class ConfigHandler
      * Write configuration changes to the file.
      *
      * @param array $config The modified configuration array.
+     * 
+     * @return void 
      */
     public static function write(array|string $config) : void
     {
@@ -92,7 +96,10 @@ class ConfigHandler
         foreach ($config as $section => $values) {
             $content .= "[$section]\n";
             foreach ($values as $key => $value) {
-                $content .= "$key = \"$value\"\n";
+                // Check if the value is already enclosed in double quotes or contains spaces or special characters
+                // If not, enclose it in double quotes
+                $value = (preg_match('/^\".*\"$/', $value) || preg_match('/[^\w\d.-]/', $value)) ? $value : "\"$value\"";
+                $content .= "$key = $value\n";
             }
             $content .= "\n";
         }

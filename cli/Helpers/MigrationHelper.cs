@@ -1,45 +1,19 @@
 using MySqlConnector;
-using YamlDotNet.Serialization;
 
 namespace MythicalClient
 {
     public class MigrationHelper
     {
-        FileManager fm = new FileManager();
-        private static string MigrationConfigFilePath = "migrates.ini";
-        public static string? connectionString;
-
+        private static string MigrationConfigFilePath = "/var/www/mythicalclient/migrates.ini";
         public void Now()
         {
-            if (fm.MFolderExists() == true)
+            if (ConfigManager.doesConfigExist() == true)
             {
                 ExecuteScripts();
             }
             else
             {
-                Program.logger.Log(LogType.Error, "It looks like you are missing some important core files; please redownload MythicalDash!!");
-            }
-        }
-        private void getConnection()
-        {
-            if (fm.ConfigExists() == true)
-            {
-                string filePath = "config.yml";
-                string yamlContent = File.ReadAllText(filePath);
-
-                var deserializer = new DeserializerBuilder().Build();
-                var yamlObject = deserializer.Deserialize(new StringReader(yamlContent));
-                var databaseSettings = (yamlObject as dynamic)["database"];
-                string dbHost = databaseSettings["host"];
-                string dbPort = databaseSettings["port"];
-                string dbUsername = databaseSettings["username"];
-                string dbPassword = databaseSettings["password"];
-                string dbName = databaseSettings["database"];
-                connectionString = $"Server={dbHost};Port={dbPort};User ID={dbUsername};Password={dbPassword};Database={dbName}";
-            }
-            else
-            {
-                Program.logger.Log(LogType.Error, "It looks like the config file does not exist!");
+                Program.logger.Log(LogType.Error, "It looks like your main config file is missing!");
             }
         }
         private void ExecuteScript(MySqlConnection connection, string scriptContent)
@@ -53,15 +27,15 @@ namespace MythicalClient
         {
             try
             {
-                getConnection();
+                DatabaseHelper.getConnection();
 
-                string[] scriptFiles = Directory.GetFiles("migrate/", "*.sql")
-                    .OrderBy(scriptFile => Convert.ToInt32(Path.GetFileNameWithoutExtension(scriptFile)))
+                string[] scriptFiles = Directory.GetFiles("/var/www/mythicalclient/migrations/", "*.sql")
+                    .OrderBy(scriptFile => Path.GetFileNameWithoutExtension(scriptFile))
                     .ToArray();
 
                 HashSet<string> migratedScripts = ReadMigratedScripts();
 
-                using (var connection = new MySqlConnection(connectionString))
+                using (var connection = new MySqlConnection(DatabaseHelper.connectionString))
                 {
                     connection.Open();
 
@@ -99,7 +73,7 @@ namespace MythicalClient
             {
                 using (StreamReader reader = new StreamReader(MigrationConfigFilePath))
                 {
-                    string line;
+                    string? line;
                     while ((line = reader.ReadLine()) != null)
                     {
                         migratedScripts.Add(line.Trim());

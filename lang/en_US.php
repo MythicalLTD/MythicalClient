@@ -19,7 +19,7 @@ return [
     "login" => "Login",
     "register" => "Register",
     "balance" => "Coins",
-    "joinned" => "Joinned",
+    "joined" => "Joined",
     "description" => "Description",
     "time" => "Time",
     "ip_address" => "IP Address",
@@ -79,10 +79,11 @@ return [
     "error_title" => "Oops… You just found an error page",
     "error_to_home" => "Back to home",
     "error_404" => " We are sorry but the page you are looking for was not found",
-    "error_403" => "We are so sorry but you do not have acces to this page!",
+    "error_403" => "We are so sorry but you do not have access to this page!",
+    "error_500" => "The server encountered a situation it doesn't know how to handle.",
     "error_maintenance_title" => "Temporarily down for maintenance",
     "error_maintenance_subtitle" => "Sorry for the inconvenience but we’re performing some maintenance at the moment. We’ll be back online shortly!",   
-    //Acount page
+    //Account page
     "account_password_no_match" => "Im sorry but the password does not match!",
     "account_new_password" => "New Password",
     "account_confirm_new_password" => "Confirm New Password",

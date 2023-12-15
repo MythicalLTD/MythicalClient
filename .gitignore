@@ -7,3 +7,4 @@ config.ini
 /cli/obj
 /logs/*.txt
 /public/assets/1209.mp4
+migrates.ini

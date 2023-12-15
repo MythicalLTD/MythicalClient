@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "alting",
         "anotherdomain",
         "autoload",
         "autoloader",
@@ -15,6 +16,7 @@
         "keyrings",
         "Kutzu",
         "letsencrypt",
+        "mailserver",
         "mbstring",
         "mythicalclient",
         "mythicaldash",
@@ -23,6 +25,7 @@
         "nosniff",
         "phpmailer",
         "privkey",
+        "Salaros",
         "sendfile",
         "sury",
         "VARCHAR",

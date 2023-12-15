@@ -230,7 +230,7 @@ class SessionManager
      * @param string $email The email
      * @param string $password The password
      * 
-     * @return bool The stauts
+     * @return bool The status
      */
     public function updateAccount(string $first_name, string $last_name, string|null $email, string|null $password): bool
     {

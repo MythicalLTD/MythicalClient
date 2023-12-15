@@ -29,7 +29,7 @@ use MythicalClient\Handlers\ConfigHandler;
  * Check if the client area has access to the directory!
  */
 if (!is_writable(__DIR__)) {
-    App::Crash("We have no access to our client directory. Open the terminal and run: chown -R www-data:www-data /var/www/MythicalClient/*");
+    App::Crash("We have no access to our client directory. Open the terminal and run: chown -R www-data:www-data /var/www/MythicalClient/*");#
     die();
 }
 
@@ -56,7 +56,7 @@ if (!ConfigHandler::get("app", "debug") == null && ConfigHandler::get("app", "de
 }
 
 /**
- * System to load the langauges
+ * System to load the languages
  */
 
 $lang = App::getLang();
@@ -77,17 +77,35 @@ if (strlen(ConfigHandler::get("app", "key")) < $minKeyLength) {
 }
 
 /**
+ * MythicalClient maintenance manager
+ * 
+ * This is the system that checks if the app has the maintenance mod enabled
+ * if yes it will show the maintain page
+ */
+if (ConfigHandler::get('app', 'maintenance') == "true") {
+    $lang = App::getLang();
+    $template = file_get_contents('../templates/error/maintenance.html');
+    $placeholders = array('%APP_LOGO%', '%APP_NAME%', '%LANG_VAL1%', '%LANG_VAL2%', '%LANG_VAL3%');
+    $values = array(ConfigHandler::get("app","logo"),ConfigHandler::get("app","name"),$lang['maintenance'], $lang['error_maintenance_title'], $lang['error_maintenance_subtitle']);
+    $templateView = str_replace($placeholders, $values, $template);
+    die($templateView);
+} 
+
+/**
  * MythicalClient Router System
  * 
  * This is the route system for mythicalclient that includes all the routes to the app!
  */
 $router = new \Router\Router();
-$routesDirectory = __DIR__ . '/../routes/';
-$phpFiles = glob($routesDirectory . '*.php');
-foreach ($phpFiles as $phpFile) {
+//Routes for view
+$routesViewDirectory = __DIR__ . '/../routes/views/';
+$phpViewFiles = glob($routesViewDirectory . '*.php');
+foreach ($phpViewFiles as $phpViewFile) {
     try {
-        include $phpFile;
+        http_response_code(200);
+        include $phpViewFile;
     } catch (Exception $ex) {
+        http_response_code(500);
         App::Crash("Failed to start app: " . $e->getMessage());
         die();
     }
@@ -95,8 +113,40 @@ foreach ($phpFiles as $phpFile) {
 }
 
 $router->add("/(.*)", function () {
-    require("../views/errors/404.php");
+    $lang = App::getLang();
+    $template = file_get_contents('../templates/error/404.html');
+    $placeholders = array('%APP_LOGO%', '%APP_NAME%', '%LANG_VAL1%', '%LANG_VAL2%', '%LANG_VAL3%');
+    $values = array(ConfigHandler::get("app","logo"),ConfigHandler::get("app","name"),$lang['error_title'], $lang['error_404'], $lang['error_to_home']);
+    $templateView = str_replace($placeholders, $values, $template);
+    die($templateView);
 });
+
+//Routes for API
+$routesAPIDirectory = __DIR__ . '/../routes/api/';
+$phpApiFiles = glob($routesAPIDirectory . '*.php');
+foreach ($phpApiFiles as $phpApiFile) {
+    try {
+        include $phpApiFile;
+    } catch (Exception $ex) {
+        header('Content-type: application/json');
+        ini_set("display_errors", 0);
+        ini_set("display_startup_errors", 0);
+        $rsp = array(
+            "code" => 500,
+            "error" => "The server encountered a situation it doesn't know how to handle.",
+            "message" => "We are sorry, but our server can't handle this request. Please do not try again!"
+        );
+        http_response_code(500);
+        die(json_encode($rsp, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    }
+    
+}
+
+$router->add("/api/(.*)", function () {
+    require("../api/errors/404.php");
+});
+
+
 
 try {
     $router->route();

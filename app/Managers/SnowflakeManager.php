@@ -35,10 +35,10 @@ class SnowflakeManager
     /**
      * Function to save user IDs to the cache JSON file
      * 
-     * @param string $user_id Save the user id inside the cache
+     * @param string|array $user_id Save the user id inside the cache
      * 
      */
-    private static function saveUserIDsToCache(string $user_id) : void 
+    private static function saveUserIDsToCache(string|array $user_id) : void 
     {
         $filename = __DIR__ . '/../../caches/user_usedids.json';
         $json_data = json_encode($user_id, JSON_PRETTY_PRINT);
@@ -58,9 +58,9 @@ class SnowflakeManager
     /**
      * Function to get a unique user ID
      * 
-     * @return string The user id
+     * @return string|array The user id
      */
-    public static function getUniqueUserID() : string 
+    public static function getUniqueUserID() : string|array
     {
         $new_user_id = self::generateUserID();
         $cached_user_ids = self::getCachedUserIDs();
